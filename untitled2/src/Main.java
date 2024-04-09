@@ -195,7 +195,7 @@ class CSVBoekRepository extends BoekRepository {
                 }
             }
 
-            // Bijwerken van het CSV-bestand
+
             updateCSV(updatedLines);
 
             System.out.println("Boek succesvol aangepast.");
@@ -221,12 +221,12 @@ class CSVBoekRepository extends BoekRepository {
             while ((currentLine = reader.readLine()) != null) {
                 if (currentLine.trim().isEmpty() || !currentLine.contains(",")) {
                     System.out.println("Ongeldige regel in CSV-bestand: " + currentLine);
-                    continue; // Ga verder naar de volgende regel
+                    continue;
                 }
 
                 String[] gegevens = currentLine.split(",");
                 if (gegevens.length >= 6) {
-                    String boekNaam = gegevens[1].trim(); // Haal de naam op en trim overbodige spaties
+                    String boekNaam = gegevens[1].trim();
 
                     if (!boekNaam.equalsIgnoreCase(naam)) {
                         writer.write(currentLine + System.lineSeparator());
@@ -385,7 +385,7 @@ class BoekController extends CSVBoekRepository{
                 System.out.println("Voer de naam van het boek in dat je wilt aanpassen:");
                 String boekNaam = scanner.nextLine();
 
-                // Zoek het boek op basis van de naam
+
                 List<Boek> gevondenBoeken = boekRepository.zoekBoekenOpNaam(boekNaam);
 
                 if (gevondenBoeken.isEmpty()) {
@@ -423,7 +423,7 @@ class BoekController extends CSVBoekRepository{
                 case 3:
                     System.out.println("Voer het nieuwe jaar in:");
                     int nieuwJaar = scanner.nextInt();
-                    scanner.nextLine(); // Consumeer newline karakter na nextInt()
+                    scanner.nextLine();
                     boekRepository.updateBoek("Jaar", Integer.toString(teWijzigenBoek.getJaar()), Integer.toString(nieuwJaar));
                     System.out.println("Jaar succesvol gewijzigd.");
                     break;
@@ -460,7 +460,7 @@ class BoekController extends CSVBoekRepository{
         int vraag21 = scanner.nextInt();
         scanner.nextLine();
 
-        List<Boek> resultaten = new ArrayList<>(); // Variabele om resultaten op te slaan
+        List<Boek> resultaten = new ArrayList<>();
 
         switch (vraag21) {
             case 1:
@@ -486,11 +486,11 @@ class BoekController extends CSVBoekRepository{
                 break;
             case 5:
                 System.out.println("Hier zijn alle gelezen boeken:");
-                resultaten = boekRepository.zoekBoekenOpGelezen(true); // Zoek gelezen boeken
+                resultaten = boekRepository.zoekBoekenOpGelezen(true);
                 break;
             case 6:
                 System.out.println("Hier zijn alle boeken die je nog niet gelezen hebt:");
-                resultaten = boekRepository.zoekBoekenOpGelezen(false); // Zoek niet-gelezen boeken
+                resultaten = boekRepository.zoekBoekenOpGelezen(false);
                 break;
 
             default:
@@ -498,7 +498,7 @@ class BoekController extends CSVBoekRepository{
                 return;
         }
 
-        // Print de gevonden resultaten
+
         for (Boek boek : resultaten) {
             System.out.println("Naam: " + boek.getNaam());
             System.out.println("Genres: " + String.join(", ", boek.getGenres()));
@@ -528,7 +528,7 @@ class HomePage {
         System.out.println("5. Exit");
         System.out.print("Keuze: ");
         keuze = scanner.nextInt();
-        scanner.nextLine(); // Consumeer newline
+        scanner.nextLine(); 
     }
 
     public int getKeuze() {
