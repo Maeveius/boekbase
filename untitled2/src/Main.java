@@ -91,7 +91,7 @@ class CSVBoekRepository extends BoekRepository {
     @Override
     public void voegBoekToe(Boek boek) {
         try (FileWriter writer = new FileWriter("C:\\Users\\brian\\IdeaProjects\\untitled2\\src\\data.csv", true)) {
-            writer.append(String.format("%b,%s,%s,%d,%s,%s%n\n",
+            writer.append(String.format("%b,%s,%s,%d,%s,%s%n",
                     boek.isGelezen(), boek.getNaam(), String.join(",", boek.getGenres()),
                     boek.getJaar(), boek.getSchrijver(), boek.getOpmerking()));
         } catch (IOException e) {
@@ -382,19 +382,19 @@ class BoekController extends CSVBoekRepository{
             System.out.println("Grappig");
             return;
         }else if (vraag31.equalsIgnoreCase("Y")) {
-                System.out.println("Voer de naam van het boek in dat je wilt aanpassen:");
-                String boekNaam = scanner.nextLine();
+            System.out.println("Voer de naam van het boek in dat je wilt aanpassen:");
+            String boekNaam = scanner.nextLine();
 
 
-                List<Boek> gevondenBoeken = boekRepository.zoekBoekenOpNaam(boekNaam);
+            List<Boek> gevondenBoeken = boekRepository.zoekBoekenOpNaam(boekNaam);
 
-                if (gevondenBoeken.isEmpty()) {
-                    System.out.println("Geen boeken gevonden met de opgegeven naam.");
-                    return;
-                }
+            if (gevondenBoeken.isEmpty()) {
+                System.out.println("Geen boeken gevonden met de opgegeven naam.");
+                return;
+            }
 
 
-                Boek teWijzigenBoek = gevondenBoeken.get(0);
+            Boek teWijzigenBoek = gevondenBoeken.get(0);
 
             System.out.println("Wat zou je willen aanpassen?");
             System.out.println("----------------------------");
@@ -528,7 +528,7 @@ class HomePage {
         System.out.println("5. Exit");
         System.out.print("Keuze: ");
         keuze = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
     }
 
     public int getKeuze() {
@@ -540,43 +540,43 @@ class HomePage {
     }
 }
 
-    public class Main {
-        public static void main(String[] args) {
-            BoekRepository repository = new CSVBoekRepository("C:\\Users\\brian\\IdeaProjects\\untitled2\\src\\data.csv");
-            BoekController controller = new BoekController(repository);
-            HomePage homePage = new HomePage();
+public class Main {
+    public static void main(String[] args) {
+        BoekRepository repository = new CSVBoekRepository("C:\\Users\\brian\\IdeaProjects\\untitled2\\src\\data.csv");
+        BoekController controller = new BoekController(repository);
+        HomePage homePage = new HomePage();
 
-            try {
-                while (true) {
-                    homePage.toonMenu();
-                    int keuze = homePage.getKeuze();
+        try {
+            while (true) {
+                homePage.toonMenu();
+                int keuze = homePage.getKeuze();
 
-                    switch (keuze) {
-                        case 1:
-                            controller.voegBoekToe();
-                            break;
-                        case 2:
-                            controller.genreUpdate();
-                            break;
-                        case 3:
-                            controller.wijzigen();
-                            break;
-                        case 4:
-                            controller.verwijderBoek();
-                            break;
-                        case 5:
-                            System.out.println("Bedankt voor het gebruik van het boekenbeheersysteem.");
-                            homePage.closeScanner();
-                            System.exit(0);
-                            break;
-                        default:
-                            System.out.println("Ongeldige keuze. Probeer opnieuw.");
-                    }
+                switch (keuze) {
+                    case 1:
+                        controller.voegBoekToe();
+                        break;
+                    case 2:
+                        controller.genreUpdate();
+                        break;
+                    case 3:
+                        controller.wijzigen();
+                        break;
+                    case 4:
+                        controller.verwijderBoek();
+                        break;
+                    case 5:
+                        System.out.println("Bedankt voor het gebruik van het boekenbeheersysteem.");
+                        homePage.closeScanner();
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Ongeldige keuze. Probeer opnieuw.");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                homePage.closeScanner();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            homePage.closeScanner();
         }
     }
+}
