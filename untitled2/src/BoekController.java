@@ -44,11 +44,14 @@ public class BoekController extends CSVBoekKast{
 
         Boek nieuwBoek;
         if (keuzeSpeciaal == 1) {
-            nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, opmerking);
+            String speciaal1 = "CD";
+            nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, speciaal1, opmerking);
         } else if (keuzeSpeciaal == 2) {
-            nieuwBoek = new KookBoeken(gelezen1, naam, genres, jaar, schrijver, opmerking);
+            String speciaal2 = "Kookboek";
+            nieuwBoek = new KookBoeken(gelezen1, naam, genres, jaar, schrijver, speciaal2, opmerking);
         } else {
-            nieuwBoek = new Boek(gelezen1, naam, genres, jaar, schrijver, opmerking);
+            String nietspeciaal = "niet speciaal";
+            nieuwBoek = new Boek(gelezen1, naam, genres, jaar, schrijver, nietspeciaal, opmerking);
         }
 
         boekKast.voegBoekToe(nieuwBoek);

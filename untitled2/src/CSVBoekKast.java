@@ -25,15 +25,11 @@ public class CSVBoekKast implements BoekKast {
 
     @Override
     public void voegBoekToe(Boek boek) {
-        String speciaalType = "Niet speciaal";
 
-        if (boek instanceof SpeciaalBoek) {
-            speciaalType = ((SpeciaalBoek) boek).isSpeciaalBoek() ? "Speciaal" : "Niet speciaal";
-        }
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
             writer.println(String.format("%b,%s,%s,%d,%s,%s,%s",
                     boek.isGelezen(), boek.getNaam(), String.join(",", boek.getGenres()),
-                    boek.getJaar(), boek.getSchrijver(), boek.getOpmerking(), speciaalType));
+                    boek.getJaar(), boek.getSchrijver(), boek.getSpeciaal(), boek.getOpmerking()));
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
         } catch (IOException e) {
             e.printStackTrace();
@@ -64,6 +60,10 @@ public class CSVBoekKast implements BoekKast {
     public List<Boek> zoekBoekenOpSchrijver(String schrijver) {
         return zoekEnToonResultaten("Schrijver", schrijver);
     }
+    @Override
+    public List<Boek> zoekBoekenOpSpeciaal(String speciaal) {
+        return zoekEnToonResultaten("Speciaal", speciaal);
+    }
 
     @Override
     public List<Boek> zoekOpAlles() {
@@ -80,7 +80,8 @@ public class CSVBoekKast implements BoekKast {
                     int jaar = Integer.parseInt(gegevens[3]);
                     String schrijver = gegevens[4];
                     String opmerking = gegevens[5];
-                    Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, opmerking);
+                    String speciaal = gegevens[6];
+                    Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
                     gevondenBoeken.add(boek);
                 }
             }
@@ -127,6 +128,11 @@ public class CSVBoekKast implements BoekKast {
                                 gegevens[5] = nieuweWaarde;
                             }
                             break;
+                        case "Speciaal":
+                            if (gegevens[6].equalsIgnoreCase(oudeWaarde)) {
+                                gegevens[6] = nieuweWaarde;
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -149,8 +155,8 @@ public class CSVBoekKast implements BoekKast {
     @Override
     public void verwijderBoek(String naam) {
         try {
-            File inputFile = new File("C:\\Users\\brian\\IdeaProjects\\untitled2\\src\\data.csv");
-            File tempFile = new File("C:\\Users\\brian\\IdeaProjects\\untitled2\\src\\temp.csv");
+            File inputFile = new File(bestandsnaam);
+            File tempFile = new File("untitled2\\temp.csv");
 
             BufferedReader reader = new BufferedReader(new FileReader(inputFile));
             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -195,12 +201,13 @@ public class CSVBoekKast implements BoekKast {
 
     private List<Boek> zoekEnToonResultaten(String criterium, String waarde) {
         List<Boek> gevondenBoeken = new ArrayList<>();
-        try {BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\brian\\IdeaProjects\\boekbase\\untitled2\\src\\data.csv"));
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam));
             String line;
 
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(",");
-                if (gegevens.length >= 6) {
+                if (gegevens.length >= 7) {
                     String currentWaarde = "";
                     switch (criterium) {
                         case "Gelezen":
@@ -221,6 +228,9 @@ public class CSVBoekKast implements BoekKast {
                         case "Opmerking":
                             currentWaarde = gegevens[5];
                             break;
+                        case "Speciaal":
+                            currentWaarde = gegevens[6];
+                            break;
                     }
                     if (currentWaarde.equalsIgnoreCase(waarde)) {
                         boolean gelezen = Boolean.parseBoolean(gegevens[0]);
@@ -229,11 +239,12 @@ public class CSVBoekKast implements BoekKast {
                         int jaar = Integer.parseInt(gegevens[3]);
                         String schrijver = gegevens[4];
                         String opmerking = gegevens[5];
-                        Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, opmerking);
+                        String speciaal = gegevens[6];
+                        Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
                         gevondenBoeken.add(boek);
                     }
                 }
-            }
+                }
         } catch (IOException e) {
             e.printStackTrace();
         }

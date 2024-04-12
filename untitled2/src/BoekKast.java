@@ -7,6 +7,7 @@ interface BoekKast {
     List<Boek> zoekBoekenOpGenre(String genre);
     List<Boek> zoekBoekenOpJaar(int jaar);
     List<Boek> zoekBoekenOpSchrijver(String schrijver);
+    List<Boek> zoekBoekenOpSpeciaal(String speciaal);
     List<Boek> zoekOpAlles();
     void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde);
     void verwijderBoek(String naam);

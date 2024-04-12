@@ -124,11 +124,20 @@ public class HomePage {
     }
 
     public void verwijderBoek() {
-        System.out.println("Voer de naam van het boek in dat je wilt verwijderen:");
-        String boekNaam = scanner.nextLine();
+        System.out.print("Welk boek wil je verwijderen? Geef de naam: ");
+        String naam = scanner.nextLine();
 
-        boekKast.verwijderBoek(boekNaam);
-        System.out.println("Boek succesvol verwijderd.");
+        System.out.println("Weet je zeker dat je dit boek wilt verwijderen: " + naam);
+        System.out.println("Y/N");
+        String vraag92 = scanner.nextLine();
+        if (vraag92.equalsIgnoreCase("Y")) {
+            System.out.println("Oké, het is verwijderd");
+            boekKast.verwijderBoek(naam);
+        } else if (vraag92.equalsIgnoreCase("N")) {
+            System.out.println("Dat dacht ik al");
+        } else {
+            System.out.println("Ongeldige invoer, stop.");
+        }
     }
 
     public void genreUpdate() {
@@ -184,16 +193,15 @@ public class HomePage {
 
         if (resultaten == null || resultaten.isEmpty()) {
             System.out.println("Geen resultaten gevonden.");
-            return;
-        }
-
-        for (Boek boek : resultaten) {
-            System.out.println("Naam: " + boek.getNaam());
-            System.out.println("Genres: " + String.join(", ", boek.getGenres()));
-            System.out.println("Jaar: " + boek.getJaar());
-            System.out.println("Schrijver: " + boek.getSchrijver());
-            System.out.println("Opmerking: " + boek.getOpmerking());
-            System.out.println("------------------------");
+        } else {
+            for (Boek boek : resultaten) {
+                System.out.println("Naam: " + boek.getNaam());
+                System.out.println("Genres: " + String.join(", ", boek.getGenres()));
+                System.out.println("Jaar: " + boek.getJaar());
+                System.out.println("Schrijver: " + boek.getSchrijver());
+                System.out.println("Opmerking: " + boek.getOpmerking());
+                System.out.println("------------------------");
+            }
         }
     }
 

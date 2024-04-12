@@ -7,15 +7,17 @@ class Boek {
     private int jaar;
     private String schrijver;
     private String opmerking;
+    private String speciaal;
 
 
-    public Boek(boolean gelezen, String naam, String[] genres, int jaar, String schrijver, String opmerking) {
+    public Boek(boolean gelezen, String naam, String[] genres, int jaar, String schrijver,String speciaal ,String opmerking) {
         this.gelezen = gelezen;
         this.naam = naam;
         this.genres = genres;
         this.jaar = jaar;
         this.schrijver = schrijver;
         this.opmerking = opmerking;
+        this.speciaal = speciaal;
     }
     public boolean isGelezen() {
         return gelezen;
@@ -35,6 +37,7 @@ class Boek {
     public String getOpmerking() {
         return opmerking;
     }
+    public String getSpeciaal() { return speciaal;}
     public void setGelezen(boolean gelezen) {
         this.gelezen = gelezen;
     }
@@ -52,6 +55,7 @@ class Boek {
     }public void setOpmerking(String opmerking) {
         this.opmerking = opmerking;
     }
+    public void setSpeciaal(String speciaal){this.speciaal = speciaal;}
 
     @Override
     public String toString() {
@@ -62,6 +66,7 @@ class Boek {
                 ", jaar=" + jaar +
                 ", schrijver='" + schrijver + '\'' +
                 ", opmerking='" + opmerking + '\'' +
+                ", speciaal='" + speciaal + '\'' +
                 '}';
     }
 }
