@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class CSVBoekKast implements BoekKast {
-    private String bestandsnaam;
+    private final String bestandsnaam;
 
     public CSVBoekKast(String bestandsnaam) {
         this.bestandsnaam = bestandsnaam;
@@ -233,14 +233,7 @@ public class CSVBoekKast implements BoekKast {
                             break;
                     }
                     if (currentWaarde.equalsIgnoreCase(waarde)) {
-                        boolean gelezen = Boolean.parseBoolean(gegevens[0]);
-                        String naam = gegevens[1];
-                        String[] genres = gegevens[2].split(",");
-                        int jaar = Integer.parseInt(gegevens[3]);
-                        String schrijver = gegevens[4];
-                        String opmerking = gegevens[5];
-                        String speciaal = gegevens[6];
-                        Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
+                        Boek boek = getBoek(gegevens);
                         gevondenBoeken.add(boek);
                     }
                 }
@@ -252,6 +245,17 @@ public class CSVBoekKast implements BoekKast {
         return gevondenBoeken;
     }
 
+    private static Boek getBoek(String[] gegevens) {
+        boolean gelezen = Boolean.parseBoolean(gegevens[0]);
+        String naam = gegevens[1];
+        String[] genres = gegevens[2].split(",");
+        int jaar = Integer.parseInt(gegevens[3]);
+        String schrijver = gegevens[4];
+        String opmerking = gegevens[5];
+        String speciaal = gegevens[6];
+        Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
+        return boek;
+    }
 
 
 }

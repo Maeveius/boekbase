@@ -15,12 +15,14 @@ public class HomePage {
         int keuze;
 
         do {
-            System.out.println("Wat wil je doen?");
-            System.out.println("1. Voeg een nieuw boek toe");
-            System.out.println("2. Zoek een boek");
-            System.out.println("3. Pas een boek aan");
-            System.out.println("4. Verwijder een boek");
-            System.out.println("5. Exit");
+            System.out.println("         Wat wil je doen?");
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+            System.out.println("- 1. Voeg een nieuw boek toe      -");
+            System.out.println("= 2. Zoek een boek                =");
+            System.out.println("- 3. Pas een boek aan             -");
+            System.out.println("= 4. Verwijder een boek           =");
+            System.out.println("- 5. Exit                         -");
+            System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             System.out.print("Keuze: ");
             keuze = scanner.nextInt();
             scanner.nextLine();
@@ -142,14 +144,14 @@ public class HomePage {
 
     public void genreUpdate() {
         System.out.println("Waar wil je op gaan zoeken?");
-        System.out.println("----------------------------");
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         System.out.println("1. Op naam");
         System.out.println("2. Op genre");
         System.out.println("3. Op jaar");
         System.out.println("4. Op schrijver");
         System.out.println("5. Alle gelezen");
         System.out.println("6. Alle niet gelezen");
-        System.out.println("----------------------------");
+        System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
         int vraag21 = scanner.nextInt();
         scanner.nextLine();
 
@@ -200,7 +202,7 @@ public class HomePage {
                 System.out.println("Jaar: " + boek.getJaar());
                 System.out.println("Schrijver: " + boek.getSchrijver());
                 System.out.println("Opmerking: " + boek.getOpmerking());
-                System.out.println("------------------------");
+                System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             }
         }
     }
