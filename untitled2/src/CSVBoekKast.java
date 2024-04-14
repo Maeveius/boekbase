@@ -69,7 +69,7 @@ public class CSVBoekKast implements BoekKast {
     public List<Boek> zoekOpAlles() {
         List<Boek> gevondenBoeken = new ArrayList<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\brian\\IdeaProjects\\boekbase\\untitled2\\src\\data.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("C:untitled2\\src\\data.csv"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(",");

@@ -10,13 +10,11 @@ public class BoekKastTest {
 
     @BeforeEach
     void setUp() {
-        // Maak een CSVBoekKast met het pad naar het CSV-bestand
-        boekKast = new CSVBoekKast("data.csv");
+        boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
     }
 
     @Test
     void zoekBoekenOpNaam_HarryPotter() {
-        // Zoek boeken met de naam "Harry Potter"
         List<Boek> gevondenBoeken = boekKast.zoekBoekenOpNaam("Harry Potter");
 
         // Controleer of ten minste één boek met de naam "Harry Potter" is gevonden

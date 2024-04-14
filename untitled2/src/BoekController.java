@@ -6,7 +6,7 @@ public class BoekController extends CSVBoekKast{
     private Scanner scanner;
 
     public BoekController(BoekKast BoekKast) {
-        super("data.csv");
+        super("untitled2\\src\\data.csv");
         this.boekKast = BoekKast;
         this.scanner = new Scanner(System.in);
     }

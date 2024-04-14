@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        BoekKast boekKast1 = new CSVBoekKast("C:\\Users\\brian\\IdeaProjects\\boekbase\\untitled2\\src\\data.csv");
+        BoekKast boekKast1 = new CSVBoekKast("untitled2\\src\\data.csv");
         BoekController controller = new BoekController(boekKast1);
         HomePage homePage = new HomePage(boekKast1);
 

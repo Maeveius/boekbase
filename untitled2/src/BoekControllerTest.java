@@ -23,7 +23,7 @@ public class BoekControllerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        BoekKast boekKast = new CSVBoekKast("data.csv");
+        BoekKast boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
         BoekController boekController = new BoekController(boekKast);
 
         boekController.voegBoekToe();
