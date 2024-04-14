@@ -1,6 +1,6 @@
 import java.util.List;
 
-interface BoekKast {
+public interface BoekKast {
     void voegBoekToe(Boek boek);
     List<Boek> zoekBoekenOpGelezen(boolean gelezen);
     List<Boek> zoekBoekenOpNaam(String naam);
