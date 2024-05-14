@@ -11,4 +11,8 @@ public interface BoekKast {
     List<Boek> zoekOpAlles();
     void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde);
     void verwijderBoek(String naam);
+
+    void registreerObserver(BoekKastObserver observer);
+    void verwijderObserver(BoekKastObserver observer);
+    void meldObservers();
 }

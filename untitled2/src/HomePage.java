@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HomePage {
+public class HomePage implements BoekKastObserver{
     private Scanner scanner;
     private BoekKast boekKast;
 
@@ -207,4 +207,23 @@ public class HomePage {
         }
     }
 
+    @Override
+    public void update(List<Boek> boeken) {
+
+    }
+
+    @Override
+    public boolean contains(BoekKastObserver observer) {
+        return false;
+    }
+
+    @Override
+    public void add(BoekKastObserver observer) {
+
+    }
+
+    @Override
+    public void remove(BoekKastObserver observer) {
+
+    }
 }

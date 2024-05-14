@@ -4,6 +4,7 @@ public class Main {
         BoekController controller = new BoekController(boekKast1);
         HomePage homePage = new HomePage(boekKast1);
 
+        controller.registreerObserver(homePage);
         try {
             int keuze;
             do {

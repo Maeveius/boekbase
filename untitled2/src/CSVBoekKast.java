@@ -8,9 +8,11 @@ import java.io.PrintWriter;
 
 public class CSVBoekKast implements BoekKast {
     private final String bestandsnaam;
+    private final List<BoekKastObserver> observers;
 
     public CSVBoekKast(String bestandsnaam) {
         this.bestandsnaam = bestandsnaam;
+        this.observers = new ArrayList<>();
     }
     private void updateCSV(List<String> lines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(bestandsnaam))) {
@@ -31,6 +33,7 @@ public class CSVBoekKast implements BoekKast {
                     boek.isGelezen(), boek.getNaam(), String.join(",", boek.getGenres()),
                     boek.getJaar(), boek.getSchrijver(), boek.getSpeciaal(), boek.getOpmerking()));
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
+            meldObservers();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,8 +147,8 @@ public class CSVBoekKast implements BoekKast {
 
 
             updateCSV(updatedLines);
-
             System.out.println("Boek succesvol aangepast.");
+            meldObservers();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,6 +198,25 @@ public class CSVBoekKast implements BoekKast {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void registreerObserver(BoekKastObserver observer) {
+        if (!observer.contains(observer)) {
+            observer.add(observer);
+        }
+    }
+
+    @Override
+    public void verwijderObserver(BoekKastObserver observer) {
+        observer.remove(observer);
+    }
+
+    @Override
+    public void meldObservers() {
+        for (BoekKastObserver observer : observers) {
+            observer.update(zoekOpAlles());
         }
     }
 

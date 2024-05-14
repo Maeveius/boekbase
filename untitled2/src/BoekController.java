@@ -1,14 +1,17 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class BoekController extends CSVBoekKast{
     private BoekKast boekKast;
     private Scanner scanner;
+    private List<BoekKastObserver> observers;
 
-    public BoekController(BoekKast BoekKast) {
+    public BoekController(BoekKast boekKast) {
         super("untitled2\\src\\data.csv");
-        this.boekKast = BoekKast;
+        this.boekKast = boekKast;
         this.scanner = new Scanner(System.in);
+        this.observers = new ArrayList<>();
     }
 
     public void voegBoekToe() {
@@ -55,7 +58,7 @@ public class BoekController extends CSVBoekKast{
         }
 
         boekKast.voegBoekToe(nieuwBoek);
-
+        meldObservers();
         System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
     }
 
@@ -76,6 +79,25 @@ public class BoekController extends CSVBoekKast{
         } else {
             System.out.println("Ongeldige invoer, stop.");
         }
+        meldObservers();
+    }
+    public void registreerObserver(BoekKastObserver observer) {
+        if (observer != null) {
+            observers.add(observer);
+            System.out.println("Observer succesvol geregistreerd.");
+        } else {
+            System.out.println("Observer is null. Registratie mislukt.");
+        }
     }
 
-}
+    public void verwijderObserver(BoekKastObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void meldObservers() {
+        List<Boek> boeken = boekKast.zoekOpAlles();
+        for (BoekKastObserver observer : observers) {
+            observer.update(boeken);
+        }
+
+}}
