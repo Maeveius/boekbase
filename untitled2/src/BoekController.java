@@ -1,12 +1,16 @@
-import java.util.Arrays;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
 import java.util.Scanner;
 
-public class BoekController extends CSVBoekKast{
+public class BoekController extends CSVBoekKast {
     private BoekKast boekKast;
     private Scanner scanner;
 
     public BoekController(BoekKast BoekKast) {
-        super("untitled2\\src\\data.csv");
+        super("data.csv");
         this.boekKast = BoekKast;
         this.scanner = new Scanner(System.in);
     }
@@ -15,67 +19,57 @@ public class BoekController extends CSVBoekKast{
         System.out.println("Heb je een nieuw boek gelezen of wil je er nog 1 lezen?");
         System.out.println("1. Heb er 1 gelezen");
         System.out.println("2. Wil er 1 lezen");
-        int gelezen = scanner.nextInt();
-        scanner.nextLine();
-        boolean gelezen1 = (gelezen == 1);
-
+        int gelezen = this.scanner.nextInt();
+        this.scanner.nextLine();
+        boolean gelezen1 = gelezen == 1;
         System.out.print("Welk boek heb je gelezen of wil je lezen?: ");
-        String naam = scanner.nextLine();
-
+        String naam = this.scanner.nextLine();
         System.out.println("Maar welke genre/genres heeft het?");
-        String[] genres = scanner.nextLine().split(", ");
-
+        String[] genres = this.scanner.nextLine().split(", ");
         System.out.print("Uit welk jaar komt het boek eigenlijk?: ");
-        int jaar = scanner.nextInt();
-        scanner.nextLine();
-
+        int jaar = this.scanner.nextInt();
+        this.scanner.nextLine();
         System.out.print("En wie is de schrijver?: ");
-        String schrijver = scanner.nextLine();
-
+        String schrijver = this.scanner.nextLine();
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
-        String opmerking = scanner.nextLine();
-
+        String opmerking = this.scanner.nextLine();
         System.out.println("Is het een speciaal boek? (CD/Kookboek)");
         System.out.println("1. CD");
         System.out.println("2. Kookboek");
         System.out.println("3. Geen speciaal boek");
-        int keuzeSpeciaal = scanner.nextInt();
-        scanner.nextLine();
-
-        Boek nieuwBoek;
+        int keuzeSpeciaal = this.scanner.nextInt();
+        this.scanner.nextLine();
+        Object nieuwBoek;
+        String speciaal2;
         if (keuzeSpeciaal == 1) {
-            String speciaal1 = "CD";
-            nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, speciaal1, opmerking);
+            speciaal2 = "CD";
+            nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, speciaal2, opmerking);
         } else if (keuzeSpeciaal == 2) {
-            String speciaal2 = "Kookboek";
+            speciaal2 = "Kookboek";
             nieuwBoek = new KookBoeken(gelezen1, naam, genres, jaar, schrijver, speciaal2, opmerking);
         } else {
-            String nietspeciaal = "niet speciaal";
-            nieuwBoek = new Boek(gelezen1, naam, genres, jaar, schrijver, nietspeciaal, opmerking);
+            speciaal2 = "niet speciaal";
+            nieuwBoek = new Boek(gelezen1, naam, genres, jaar, schrijver, speciaal2, opmerking);
         }
 
-        boekKast.voegBoekToe(nieuwBoek);
-
+        this.boekKast.voegBoekToe((Boek)nieuwBoek);
         System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
     }
 
-
     public void verwijderBoek() {
         System.out.print("Welk boek wil je verwijderen? Geef de naam: ");
-        String naam = scanner.nextLine();
-
+        String naam = this.scanner.nextLine();
         System.out.println("Weet je zeker dat je dit boek wilt verwijderen: " + naam);
         System.out.println("Y/N");
-        String antwoord = scanner.nextLine();
-
+        String antwoord = this.scanner.nextLine();
         if (antwoord.equalsIgnoreCase("Y")) {
-            boekKast.verwijderBoek(naam);
+            this.boekKast.verwijderBoek(naam);
             System.out.println("Oké, het is verwijderd");
         } else if (antwoord.equalsIgnoreCase("N")) {
             System.out.println("Dat dacht ik al");
         } else {
             System.out.println("Ongeldige invoer, stop.");
         }
-    }
 
+    }
 }
