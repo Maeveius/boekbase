@@ -34,7 +34,7 @@ public class CSVBoekKast implements BoekKast {
             writer.println(String.format("%b,%s,%s,%d,%s,%s,%s",
                     boek.isGelezen(), boek.getNaam(), String.join(",", boek.getGenres()),
                     boek.getJaar(), boek.getSchrijver(), boek.getSpeciaal(), boek.getOpmerking()));
-            System.out.println("BoekOpBouw.Boek succesvol toegevoegd aan het CSV-bestand.");
+            System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
             meldObservers();
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,7 +149,7 @@ public class CSVBoekKast implements BoekKast {
 
 
             updateCSV(updatedLines);
-            System.out.println("BoekOpBouw.Boek succesvol aangepast.");
+            System.out.println("Boek succesvol aangepast.");
             meldObservers();
 
         } catch (IOException e) {
@@ -195,7 +195,7 @@ public class CSVBoekKast implements BoekKast {
             if (!tempFile.renameTo(inputFile)) {
                 System.out.println("Kon het tijdelijke bestand niet hernoemen");
             } else {
-                System.out.println("BoekOpBouw.Boek succesvol verwijderd.");
+                System.out.println("Boek succesvol verwijderd.");
             }
 
         } catch (IOException e) {

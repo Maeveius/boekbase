@@ -61,7 +61,7 @@ public class Boek {
 
     @Override
     public String toString() {
-        return "BoekOpBouw.Boek{" +
+        return "Boek{" +
                 "gelezen=" + gelezen +
                 ", naam='" + naam + '\'' +
                 ", genres=" + Arrays.toString(genres) +

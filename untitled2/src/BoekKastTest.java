@@ -19,7 +19,7 @@ public class BoekKastTest {
         List<Boek> gevondenBoeken = boekKast.zoekBoekenOpNaam("Harry Potter");
 
         // Controleer of ten minste één boek met de naam "Harry Potter" is gevonden
-        assertFalse(gevondenBoeken.isEmpty(), "BoekOpBouw.Boek met naam 'Harry Potter' niet gevonden");
+        assertFalse(gevondenBoeken.isEmpty(), "Boek met naam 'Harry Potter' niet gevonden");
 
         // Controleer de eigenschappen van het eerste gevonden boek
         Boek eersteBoek = gevondenBoeken.get(0);

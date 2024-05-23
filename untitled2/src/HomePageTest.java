@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomePageTest {
