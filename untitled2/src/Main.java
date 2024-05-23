@@ -1,5 +1,17 @@
+import login.Login;
+
 public class Main {
     public static void main(String[] args) {
+        Login login = new Login();
+        boolean loggedIn = false;
+
+        while (!loggedIn) {
+            loggedIn = login.logins();  // Assuming logins() returns true on successful login
+            if (!loggedIn) {
+            }
+        }
+
+        // Assuming successful login, proceed with the rest of the application
         BoekKast boekKast1 = new CSVBoekKast("untitled2\\src\\data.csv");
         BoekController controller = new BoekController(boekKast1);
         HomePage homePage = new HomePage(boekKast1);

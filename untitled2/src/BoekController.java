@@ -1,3 +1,7 @@
+import BoekOpBouw.Boek;
+import BoekOpBouw.CD;
+import BoekOpBouw.KookBoeken;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,8 +42,8 @@ public class BoekController extends CSVBoekKast{
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
         String opmerking = scanner.nextLine();
 
-        System.out.println("Is het een speciaal boek? (CD/Kookboek)");
-        System.out.println("1. CD");
+        System.out.println("Is het een speciaal boek? (BoekOpBouw.CD/Kookboek)");
+        System.out.println("1. BoekOpBouw.CD");
         System.out.println("2. Kookboek");
         System.out.println("3. Geen speciaal boek");
         int keuzeSpeciaal = scanner.nextInt();
@@ -47,7 +51,7 @@ public class BoekController extends CSVBoekKast{
 
         Boek nieuwBoek;
         if (keuzeSpeciaal == 1) {
-            String speciaal1 = "CD";
+            String speciaal1 = "BoekOpBouw.CD";
             nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, speciaal1, opmerking);
         } else if (keuzeSpeciaal == 2) {
             String speciaal2 = "Kookboek";
@@ -59,7 +63,7 @@ public class BoekController extends CSVBoekKast{
 
         boekKast.voegBoekToe(nieuwBoek);
         meldObservers();
-        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
+        System.out.println("BoekOpBouw.Boek succesvol toegevoegd aan de boekenkast.");
     }
 
 

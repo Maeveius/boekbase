@@ -1,10 +1,10 @@
+import BoekOpBouw.Boek;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomePageTest {
@@ -39,7 +39,7 @@ public class HomePageTest {
         List<Boek> gevondenBoeken = boekKast.zoekBoekenOpNaam("Nieuwe Naam");
 
 
-        assertFalse(gevondenBoeken.isEmpty(), "Boek met nieuwe naam niet gevonden");
+        assertFalse(gevondenBoeken.isEmpty(), "BoekOpBouw.Boek met nieuwe naam niet gevonden");
         assertEquals("Nieuwe Naam", gevondenBoeken.get(0).getNaam(), "Naam van het boek niet correct aangepast");
     }
 }

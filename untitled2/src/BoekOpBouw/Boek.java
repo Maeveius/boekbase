@@ -1,6 +1,8 @@
+package BoekOpBouw;
+
 import java.util.Arrays;
 
-class Boek {
+public class Boek {
     private boolean gelezen;
     private String naam;
     private String[] genres;
@@ -59,7 +61,7 @@ class Boek {
 
     @Override
     public String toString() {
-        return "Boek{" +
+        return "BoekOpBouw.Boek{" +
                 "gelezen=" + gelezen +
                 ", naam='" + naam + '\'' +
                 ", genres=" + Arrays.toString(genres) +

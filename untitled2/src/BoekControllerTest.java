@@ -1,3 +1,4 @@
+import BoekOpBouw.Boek;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -37,9 +38,9 @@ public class BoekControllerTest {
             }
         }
 
-        assertNotNull(toegevoegdBoek, "Boek is niet toegevoegd aan de BoekKast");
+        assertNotNull(toegevoegdBoek, "BoekOpBouw.Boek is niet toegevoegd aan de BoekKast");
         assertEquals("Harry Potter", toegevoegdBoek.getNaam(), "Verkeerde boeknaam toegevoegd");
-        assertTrue(Arrays.asList(toegevoegdBoek.getGenres()).contains("Fantasy"), "Boek heeft niet het verwachte genre");
+        assertTrue(Arrays.asList(toegevoegdBoek.getGenres()).contains("Fantasy"), "BoekOpBouw.Boek heeft niet het verwachte genre");
         assertEquals(2000, toegevoegdBoek.getJaar(), "Verkeerd jaar toegevoegd");
         assertEquals("J.K. Rowling", toegevoegdBoek.getSchrijver(), "Verkeerde schrijver toegevoegd");
         assertEquals("Een geweldig boek", toegevoegdBoek.getSpeciaal(), "Onjuiste speciale status van het boek");

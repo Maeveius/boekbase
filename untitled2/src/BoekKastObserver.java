@@ -1,3 +1,4 @@
+import BoekOpBouw.Boek;
 import java.util.List;
 
 public interface BoekKastObserver {
