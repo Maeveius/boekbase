@@ -1,6 +1,6 @@
 package login;
 
-public class WachtWoord {
+public class WachtWoord extends Login{
     private String wachtwoord;
     public WachtWoord(String wachtwoord) {
         this.wachtwoord = wachtwoord;

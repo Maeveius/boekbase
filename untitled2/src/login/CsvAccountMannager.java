@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvAccountMannager {
+public class CsvAccountMannager{
     private final String bestandsnaam;
 
     public CsvAccountMannager(String bestandsnaam) {
