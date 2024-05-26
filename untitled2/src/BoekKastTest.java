@@ -23,10 +23,10 @@ public class BoekKastTest {
 
         // Controleer de eigenschappen van het eerste gevonden boek
         Boek eersteBoek = gevondenBoeken.get(0);
-        assertEquals("Harry Potter", eersteBoek.getNaam(), "Verkeerde boeknaam gevonden");
-        assertEquals("Fantasy", eersteBoek.getGenres()[0], "Verkeerd genre gevonden");
+        assertEquals("Harry Potter", eersteBoek.getTitel(), "Verkeerde boeknaam gevonden");
+        assertEquals("Fantasy", eersteBoek.getGenres(), "Verkeerd genre gevonden");
         assertEquals(2000, eersteBoek.getJaar(), "Verkeerd jaar gevonden");
-        assertEquals("J.K. Rowling", eersteBoek.getSchrijver(), "Verkeerde schrijver gevonden");
+        assertEquals("J.K. Rowling", eersteBoek.getAuteur(), "Verkeerde schrijver gevonden");
         assertEquals("Een geweldig boek", eersteBoek.getSpeciaal(), "Onjuiste speciale status van het boek");
         assertEquals("niet speciaal", eersteBoek.getOpmerking(), "Onjuiste opmerking over het boek");
     }
@@ -42,11 +42,11 @@ public class BoekKastTest {
         // Controleer enkele eigenschappen van de eerste twee boeken (indien aanwezig)
         if (alleBoeken.size() >= 1) {
             Boek eersteBoek = alleBoeken.get(0);
-            assertNotNull(eersteBoek.getNaam(), "Boeknaam mag niet leeg zijn");
+            assertNotNull(eersteBoek.getTitel(), "Boeknaam mag niet leeg zijn");
         }
         if (alleBoeken.size() >= 2) {
             Boek tweedeBoek = alleBoeken.get(1);
-            assertNotNull(tweedeBoek.getNaam(), "Boeknaam mag niet leeg zijn");
+            assertNotNull(tweedeBoek.getTitel(), "Boeknaam mag niet leeg zijn");
         }
     }
 }

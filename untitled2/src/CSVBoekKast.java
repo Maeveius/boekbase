@@ -1,5 +1,4 @@
-import BoekOpBouw.Boek;
-
+import BoekOpBouw.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ public class CSVBoekKast implements BoekKast {
         this.bestandsnaam = bestandsnaam;
         this.observers = new ArrayList<>();
     }
+
     private void updateCSV(List<String> lines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(bestandsnaam))) {
             for (String line : lines) {
@@ -32,8 +32,8 @@ public class CSVBoekKast implements BoekKast {
 
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
             writer.println(String.format("%b,%s,%s,%d,%s,%s,%s",
-                    boek.isGelezen(), boek.getNaam(), String.join(",", boek.getGenres()),
-                    boek.getJaar(), boek.getSchrijver(), boek.getSpeciaal(), boek.getOpmerking()));
+                    boek.getGelezen().isGelezen(), boek.getTitel().getTitel(), String.join(",", boek.getGenres().getGenres()),
+                    boek.getJaar().getJaar(), boek.getAuteur().getAuteur(), boek.getSpeciaal().toString(), boek.getOpmerking().getOpmerking()));
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
             meldObservers();
         } catch (IOException e) {
@@ -65,6 +65,7 @@ public class CSVBoekKast implements BoekKast {
     public List<Boek> zoekBoekenOpSchrijver(String schrijver) {
         return zoekEnToonResultaten("Schrijver", schrijver);
     }
+
     @Override
     public List<Boek> zoekBoekenOpSpeciaal(String speciaal) {
         return zoekEnToonResultaten("Speciaal", speciaal);
@@ -86,7 +87,21 @@ public class CSVBoekKast implements BoekKast {
                     String schrijver = gegevens[4];
                     String opmerking = gegevens[5];
                     String speciaal = gegevens[6];
-                    Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
+                    GelezenBoek gelezenBoek = new GelezenBoek(gelezen);
+                    TitelBoek titelBoek = new TitelBoek(naam);
+                    GenreBoek genreBoek = new GenreBoek(genres);
+                    JaarBoek jaarBoek = new JaarBoek(jaar);
+                    AuteurBoek auteurBoek = new AuteurBoek(schrijver);
+                    OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking);
+
+                    Boek boek;
+                    if ("CD".equalsIgnoreCase(speciaal)) {
+                        boek = new CD(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                    } else if ("KookBoeken".equalsIgnoreCase(speciaal)) {
+                        boek = new KookBoeken(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                    } else {
+                        boek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                    }
                     gevondenBoeken.add(boek);
                 }
             }
@@ -257,11 +272,11 @@ public class CSVBoekKast implements BoekKast {
                             break;
                     }
                     if (currentWaarde.equalsIgnoreCase(waarde)) {
-                        Boek boek = getBoek(gegevens);
+                        Boek boek = BoekOpBouw.getBoek(gegevens);
                         gevondenBoeken.add(boek);
                     }
                 }
-                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -269,17 +284,34 @@ public class CSVBoekKast implements BoekKast {
         return gevondenBoeken;
     }
 
-    private static Boek getBoek(String[] gegevens) {
-        boolean gelezen = Boolean.parseBoolean(gegevens[0]);
-        String naam = gegevens[1];
-        String[] genres = gegevens[2].split(",");
-        int jaar = Integer.parseInt(gegevens[3]);
-        String schrijver = gegevens[4];
-        String opmerking = gegevens[5];
-        String speciaal = gegevens[6];
-        Boek boek = new Boek(gelezen, naam, genres, jaar, schrijver, speciaal, opmerking);
-        return boek;
+    public class BoekOpBouw {
+
+        private static Boek getBoek(String[] gegevens) {
+            boolean gelezen = Boolean.parseBoolean(gegevens[0]);
+            String naam = gegevens[1];
+            String[] genres = gegevens[2].split(",");
+            int jaar = Integer.parseInt(gegevens[3]);
+            String schrijver = gegevens[4];
+            String opmerking = gegevens[5];
+            String speciaal = gegevens[6];
+
+            GelezenBoek gelezenBoek = new GelezenBoek(gelezen);
+            TitelBoek titelBoek = new TitelBoek(naam);
+            GenreBoek genreBoek = new GenreBoek(genres);
+            JaarBoek jaarBoek = new JaarBoek(jaar);
+            AuteurBoek auteurBoek = new AuteurBoek(schrijver);
+            OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking);
+
+            Boek boek;
+            if ("CD".equalsIgnoreCase(speciaal)) {
+                boek = new CD(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+            } else if ("KookBoeken".equalsIgnoreCase(speciaal)) {
+                boek = new KookBoeken(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+            } else {
+                boek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+            }
+
+            return boek;
+        }
     }
-
-
 }

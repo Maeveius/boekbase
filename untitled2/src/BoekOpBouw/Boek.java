@@ -1,74 +1,62 @@
 package BoekOpBouw;
 
-import java.util.Arrays;
-
 public class Boek {
-    private boolean gelezen;
-    private String naam;
-    private String[] genres;
-    private int jaar;
-    private String schrijver;
-    private String opmerking;
+    private GelezenBoek gelezen;
+    private TitelBoek titel;
+    private GenreBoek genres;
+    private JaarBoek jaar;
+    private AuteurBoek auteur;
     private String speciaal;
+    private OpmerkingBoek opmerking;
 
-
-    public Boek(boolean gelezen, String naam, String[] genres, int jaar, String schrijver,String speciaal ,String opmerking) {
+    public Boek(GelezenBoek gelezen, TitelBoek titel, GenreBoek genres, JaarBoek jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
         this.gelezen = gelezen;
-        this.naam = naam;
+        this.titel = titel;
         this.genres = genres;
         this.jaar = jaar;
-        this.schrijver = schrijver;
-        this.opmerking = opmerking;
+        this.auteur = auteur;
         this.speciaal = speciaal;
+        this.opmerking = opmerking;
     }
-    public boolean isGelezen() {
+
+    public GelezenBoek getGelezen() {
         return gelezen;
     }
-    public String getNaam() {
-        return naam;
+
+    public TitelBoek getTitel() {
+        return titel;
     }
-    public String[] getGenres() {
+
+    public GenreBoek getGenres() {
         return genres;
     }
-    public int getJaar() {
+
+    public JaarBoek getJaar() {
         return jaar;
     }
-    public String getSchrijver() {
-        return schrijver;
+
+    public AuteurBoek getAuteur() {
+        return auteur;
     }
-    public String getOpmerking() {
+
+    public String getSpeciaal() {
+        return speciaal;
+    }
+
+    public OpmerkingBoek getOpmerking() {
         return opmerking;
     }
-    public String getSpeciaal() { return speciaal;}
-    public void setGelezen(boolean gelezen) {
-        this.gelezen = gelezen;
-    }
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
-    public void setGenres(String[] genres) {
-        this.genres = genres;
-    }
-    public void setJaar(int jaar) {
-        this.jaar = jaar;
-    }
-    public void setSchrijver(String schrijver) {
-        this.schrijver = schrijver;
-    }public void setOpmerking(String opmerking) {
-        this.opmerking = opmerking;
-    }
-    public void setSpeciaal(String speciaal){this.speciaal = speciaal;}
 
     @Override
     public String toString() {
         return "Boek{" +
                 "gelezen=" + gelezen +
-                ", naam='" + naam + '\'' +
-                ", genres=" + Arrays.toString(genres) +
+                ", titel=" + titel +
+                ", genres=" + genres +
                 ", jaar=" + jaar +
-                ", schrijver='" + schrijver + '\'' +
-                ", opmerking='" + opmerking + '\'' +
+                ", auteur=" + auteur +
                 ", speciaal='" + speciaal + '\'' +
+                ", opmerking=" + opmerking +
                 '}';
     }
 }

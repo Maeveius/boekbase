@@ -1,4 +1,4 @@
-import BoekOpBouw.Boek;
+import BoekOpBouw.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -32,26 +32,32 @@ public class BoekControllerTest {
         String toegevoegdeBoekNaam = "Harry Potter";
         Boek toegevoegdBoek = null;
         for (Boek boek : boekKast.zoekOpAlles()) {
-            if (boek.getNaam().equals(toegevoegdeBoekNaam)) {
+            if (boek.getTitel().equals(toegevoegdeBoekNaam)) {
                 toegevoegdBoek = boek;
                 break;
             }
         }
 
         assertNotNull(toegevoegdBoek, "BoekOpBouw.Boek is niet toegevoegd aan de BoekKast");
-        assertEquals("Harry Potter", toegevoegdBoek.getNaam(), "Verkeerde boeknaam toegevoegd");
+        assertEquals("Harry Potter", toegevoegdBoek.getTitel(), "Verkeerde boeknaam toegevoegd");
         assertTrue(Arrays.asList(toegevoegdBoek.getGenres()).contains("Fantasy"), "BoekOpBouw.Boek heeft niet het verwachte genre");
         assertEquals(2000, toegevoegdBoek.getJaar(), "Verkeerd jaar toegevoegd");
-        assertEquals("J.K. Rowling", toegevoegdBoek.getSchrijver(), "Verkeerde schrijver toegevoegd");
+        assertEquals("J.K. Rowling", toegevoegdBoek.getAuteur(), "Verkeerde schrijver toegevoegd");
         assertEquals("Een geweldig boek", toegevoegdBoek.getSpeciaal(), "Onjuiste speciale status van het boek");
         assertEquals("niet speciaal", toegevoegdBoek.getOpmerking(), "Onjuiste opmerking over het boek");
     }
 
     @Test
     void verwijderBoek() {
-        CSVBoekKast boekKast = new CSVBoekKast("untitled2\\temp.csv");
+        CSVBoekKast boekKast = new CSVBoekKast("untitled2\\src\\temp.csv");
+        GelezenBoek gelezenBoek = new GelezenBoek(true);
+        TitelBoek titelBoek = new TitelBoek("Testboek");
+        GenreBoek genreBoek = new GenreBoek(new String[]{"test"});
+        JaarBoek jaarBoek = new JaarBoek(2022);
+        AuteurBoek auteurBoek = new AuteurBoek("Testauteur");
+        OpmerkingBoek opmerkingBoek = new OpmerkingBoek("Testopmerking");
 
-        Boek testBoek = new Boek(true, "Testboek", new String[]{"Test"}, 2022, "Testauteur", "Geen speciaal", "Testopmerking");
+        Boek testBoek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, "Geen speciaal", opmerkingBoek);
         boekKast.voegBoekToe(testBoek);
 
         List<Boek> gevondenBoekenVoorVerwijdering = boekKast.zoekBoekenOpNaam("Testboek");

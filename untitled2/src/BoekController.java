@@ -1,18 +1,14 @@
-import BoekOpBouw.Boek;
-import BoekOpBouw.CD;
-import BoekOpBouw.KookBoeken;
-
+import BoekOpBouw.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BoekController extends CSVBoekKast{
+public class BoekController {
     private BoekKast boekKast;
     private Scanner scanner;
     private List<BoekKastObserver> observers;
 
     public BoekController(BoekKast boekKast) {
-        super("untitled2\\src\\data.csv");
         this.boekKast = boekKast;
         this.scanner = new Scanner(System.in);
         this.observers = new ArrayList<>();
@@ -22,28 +18,33 @@ public class BoekController extends CSVBoekKast{
         System.out.println("Heb je een nieuw boek gelezen of wil je er nog 1 lezen?");
         System.out.println("1. Heb er 1 gelezen");
         System.out.println("2. Wil er 1 lezen");
-        int gelezen = scanner.nextInt();
+        int gelezenInput = scanner.nextInt();
         scanner.nextLine();
-        boolean gelezen1 = (gelezen == 1);
+        GelezenBoek gelezen = new GelezenBoek(gelezenInput == 1);
 
         System.out.print("Welk boek heb je gelezen of wil je lezen?: ");
         String naam = scanner.nextLine();
+        TitelBoek titel = new TitelBoek(naam);
 
         System.out.println("Maar welke genre/genres heeft het?");
-        String[] genres = scanner.nextLine().split(", ");
+        String[] genresArray = scanner.nextLine().split(", ");
+        GenreBoek genres = new GenreBoek(genresArray);
 
         System.out.print("Uit welk jaar komt het boek eigenlijk?: ");
-        int jaar = scanner.nextInt();
+        int jaarInput = scanner.nextInt();
         scanner.nextLine();
+        JaarBoek jaar = new JaarBoek(jaarInput);
 
         System.out.print("En wie is de schrijver?: ");
-        String schrijver = scanner.nextLine();
+        String schrijverNaam = scanner.nextLine();
+        AuteurBoek auteur = new AuteurBoek(schrijverNaam);
 
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
-        String opmerking = scanner.nextLine();
+        String opmerkingText = scanner.nextLine();
+        OpmerkingBoek opmerking = new OpmerkingBoek(opmerkingText);
 
-        System.out.println("Is het een speciaal boek? (BoekOpBouw.CD/Kookboek)");
-        System.out.println("1. BoekOpBouw.CD");
+        System.out.println("Is het een speciaal boek? (CD/Kookboek)");
+        System.out.println("1. CD");
         System.out.println("2. Kookboek");
         System.out.println("3. Geen speciaal boek");
         int keuzeSpeciaal = scanner.nextInt();
@@ -51,21 +52,17 @@ public class BoekController extends CSVBoekKast{
 
         Boek nieuwBoek;
         if (keuzeSpeciaal == 1) {
-            String speciaal1 = "BoekOpBouw.CD";
-            nieuwBoek = new CD(gelezen1, naam, genres, jaar, schrijver, speciaal1, opmerking);
+            nieuwBoek = new CD(gelezen, titel, genres, jaar, auteur, "CD", opmerking);
         } else if (keuzeSpeciaal == 2) {
-            String speciaal2 = "Kookboek";
-            nieuwBoek = new KookBoeken(gelezen1, naam, genres, jaar, schrijver, speciaal2, opmerking);
+            nieuwBoek = new KookBoeken(gelezen, titel, genres, jaar, auteur, "Kookboek", opmerking);
         } else {
-            String nietspeciaal = "niet speciaal";
-            nieuwBoek = new Boek(gelezen1, naam, genres, jaar, schrijver, nietspeciaal, opmerking);
+            nieuwBoek = new Boek(gelezen, titel, genres, jaar, auteur, "niet speciaal", opmerking);
         }
 
         boekKast.voegBoekToe(nieuwBoek);
         meldObservers();
-        System.out.println("BoekOpBouw.Boek succesvol toegevoegd aan de boekenkast.");
+        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
     }
-
 
     public void verwijderBoek() {
         System.out.print("Welk boek wil je verwijderen? Geef de naam: ");
@@ -85,6 +82,7 @@ public class BoekController extends CSVBoekKast{
         }
         meldObservers();
     }
+
     public void registreerObserver(BoekKastObserver observer) {
         if (observer != null) {
             observers.add(observer);
@@ -103,5 +101,5 @@ public class BoekController extends CSVBoekKast{
         for (BoekKastObserver observer : observers) {
             observer.update(boeken);
         }
-
-}}
+    }
+}

@@ -93,32 +93,32 @@ public class HomePage implements BoekKastObserver{
                 case 1:
                     System.out.println("Voer de nieuwe naam in:");
                     String nieuweNaam = scanner.nextLine();
-                    boekKast.updateBoek("Naam", teWijzigenBoek.getNaam(), nieuweNaam);
+                    boekKast.updateBoek("Naam", teWijzigenBoek.getTitel().getTitel(), nieuweNaam);
                     System.out.println("Naam succesvol gewijzigd.");
                     break;
                 case 2:
                     System.out.println("Voer het nieuwe genre in:");
                     String nieuwGenre = scanner.nextLine();
-                    boekKast.updateBoek("Genre", String.join(",", teWijzigenBoek.getGenres()), nieuwGenre);
+                    boekKast.updateBoek("Genre", String.join(",", teWijzigenBoek.getGenres().getGenres()), nieuwGenre);
                     System.out.println("Genre succesvol gewijzigd.");
                     break;
                 case 3:
                     System.out.println("Voer het nieuwe jaar in:");
                     int nieuwJaar = scanner.nextInt();
                     scanner.nextLine();
-                    boekKast.updateBoek("Jaar", Integer.toString(teWijzigenBoek.getJaar()), Integer.toString(nieuwJaar));
+                    boekKast.updateBoek("Jaar", Integer.toString(teWijzigenBoek.getJaar().getJaar()), Integer.toString(nieuwJaar));
                     System.out.println("Jaar succesvol gewijzigd.");
                     break;
                 case 4:
                     System.out.println("Voer de nieuwe schrijver in:");
                     String nieuweSchrijver = scanner.nextLine();
-                    boekKast.updateBoek("Schrijver", teWijzigenBoek.getSchrijver(), nieuweSchrijver);
+                    boekKast.updateBoek("Schrijver", teWijzigenBoek.getAuteur().getAuteur(), nieuweSchrijver);
                     System.out.println("Schrijver succesvol gewijzigd.");
                     break;
                 case 5:
                     System.out.println("Voer de nieuwe opmerking in:");
                     String nieuweOpmerking = scanner.nextLine();
-                    boekKast.updateBoek("Opmerking", teWijzigenBoek.getOpmerking(), nieuweOpmerking);
+                    boekKast.updateBoek("Opmerking", teWijzigenBoek.getOpmerking().getOpmerking(), nieuweOpmerking);
                     System.out.println("Opmerking succesvol gewijzigd.");
                     break;
                 default:
@@ -199,11 +199,11 @@ public class HomePage implements BoekKastObserver{
             System.out.println("Geen resultaten gevonden.");
         } else {
             for (Boek boek : resultaten) {
-                System.out.println("Naam: " + boek.getNaam());
-                System.out.println("Genres: " + String.join(", ", boek.getGenres()));
-                System.out.println("Jaar: " + boek.getJaar());
-                System.out.println("Schrijver: " + boek.getSchrijver());
-                System.out.println("Opmerking: " + boek.getOpmerking());
+                System.out.println("Titel: " + boek.getTitel().getTitel());
+                System.out.println("Genres: " + String.join(", ", boek.getGenres().getGenres()));
+                System.out.println("Jaar: " + boek.getJaar().getJaar());
+                System.out.println("Schrijver: " + boek.getAuteur().getAuteur());
+                System.out.println("Opmerking: " + boek.getOpmerking().getOpmerking());
                 System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
             }
         }

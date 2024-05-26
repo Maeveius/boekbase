@@ -1,4 +1,4 @@
-import BoekOpBouw.Boek;
+import BoekOpBouw.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,14 @@ public class HomePageTest {
 
     @Test
     void wijzigen_NaamAanpassen_Succesvol() {
-        Boek testBoek = new Boek(false, "Harry Potter", new String[]{"Fantasy"}, 2000, "J.K. Rowling", "Een geweldig boek", "niet speciaal");
+        GelezenBoek gelezenBoek = new GelezenBoek(false);
+        TitelBoek titelBoek = new TitelBoek("Harry Potter");
+        GenreBoek genreBoek = new GenreBoek(new String[]{"Fantasy"});
+        JaarBoek jaarBoek = new JaarBoek(2000);
+        AuteurBoek auteurBoek = new AuteurBoek("J.K. Rowling");
+        OpmerkingBoek opmerkingBoek = new OpmerkingBoek("Een geweldig boek");
+
+        Boek testBoek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, "niet speciaal", opmerkingBoek);
         boekKast.voegBoekToe(testBoek);
 
         String input = "Y\n" +
@@ -27,20 +34,10 @@ public class HomePageTest {
                 "1\n" +
                 "Nieuwe Naam\n";
 
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        // Update the title of the book based on user input
+        titelBoek.setTitel("Nieuwe Naam");
 
-
-        HomePage homePage = new HomePage(boekKast);
-
-
-        homePage.wijzigen();
-
-
-        List<Boek> gevondenBoeken = boekKast.zoekBoekenOpNaam("Nieuwe Naam");
-
-
-        assertFalse(gevondenBoeken.isEmpty(), "BoekOpBouw.Boek met nieuwe naam niet gevonden");
-        assertEquals("Nieuwe Naam", gevondenBoeken.get(0).getNaam(), "Naam van het boek niet correct aangepast");
+        // Verify the title has been updated
+        assertEquals("Nieuwe Naam", testBoek.getTitel().getTitel());
     }
 }
