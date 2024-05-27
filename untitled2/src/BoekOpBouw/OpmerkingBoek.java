@@ -17,8 +17,6 @@ public class OpmerkingBoek {
 
     @Override
     public String toString() {
-        return "OpmerkingBoek{" +
-                "opmerking='" + opmerking + '\'' +
-                '}';
+        return opmerking;
     }
 }

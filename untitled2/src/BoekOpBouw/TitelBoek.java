@@ -17,8 +17,6 @@ public class TitelBoek {
 
     @Override
     public String toString() {
-        return "TitelBoek{" +
-                "titel='" + titel + '\'' +
-                '}';
+        return titel;
     }
 }

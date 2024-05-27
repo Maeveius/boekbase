@@ -27,8 +27,8 @@ public class BoekKastTest {
         assertEquals("Fantasy", eersteBoek.getGenres(), "Verkeerd genre gevonden");
         assertEquals(2000, eersteBoek.getJaar(), "Verkeerd jaar gevonden");
         assertEquals("J.K. Rowling", eersteBoek.getAuteur(), "Verkeerde schrijver gevonden");
-        assertEquals("Een geweldig boek", eersteBoek.getSpeciaal(), "Onjuiste speciale status van het boek");
-        assertEquals("niet speciaal", eersteBoek.getOpmerking(), "Onjuiste opmerking over het boek");
+        assertEquals("niet speciaal", eersteBoek.getSpeciaal(), "Onjuiste speciale status van het boek");
+        assertEquals("Een geweldig boek", eersteBoek.getOpmerking(), "Onjuiste opmerking over het boek");
     }
 
     @Test

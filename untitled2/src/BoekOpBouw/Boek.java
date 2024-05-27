@@ -1,5 +1,6 @@
 package BoekOpBouw;
 
+
 public class Boek {
     private GelezenBoek gelezen;
     private TitelBoek titel;

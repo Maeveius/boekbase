@@ -17,8 +17,6 @@ public class AuteurBoek {
 
     @Override
     public String toString() {
-        return "AuteurBoek{" +
-                "auteur='" + auteur + '\'' +
-                '}';
+        return auteur;
     }
 }

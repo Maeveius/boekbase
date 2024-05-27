@@ -19,8 +19,6 @@ public class GenreBoek {
 
     @Override
     public String toString() {
-        return "GenreBoek{" +
-                "genres=" + Arrays.toString(genres) +
-                '}';
+        return Arrays.toString(genres);
     }
 }

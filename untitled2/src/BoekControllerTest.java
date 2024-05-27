@@ -9,10 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoekControllerTest {
 
+    private BoekKast boekKast;
+
+    @BeforeEach
+    void setUp() {
+        boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
+    }
 
     @Test
     void voegBoekToe_Succesvol() {
-
         String input = "1\n"
                 + "Harry Potter\n"
                 + "Fantasy\n"
@@ -24,32 +29,29 @@ public class BoekControllerTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        BoekKast boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
         BoekController boekController = new BoekController(boekKast);
-
         boekController.voegBoekToe();
 
         String toegevoegdeBoekNaam = "Harry Potter";
         Boek toegevoegdBoek = null;
         for (Boek boek : boekKast.zoekOpAlles()) {
-            if (boek.getTitel().equals(toegevoegdeBoekNaam)) {
+            if (boek.getTitel().getTitel().equals(toegevoegdeBoekNaam)) {
                 toegevoegdBoek = boek;
                 break;
             }
         }
 
-        assertNotNull(toegevoegdBoek, "BoekOpBouw.Boek is niet toegevoegd aan de BoekKast");
+        assertNotNull(toegevoegdBoek, "Boek is niet toegevoegd aan de BoekKast");
         assertEquals("Harry Potter", toegevoegdBoek.getTitel(), "Verkeerde boeknaam toegevoegd");
-        assertTrue(Arrays.asList(toegevoegdBoek.getGenres()).contains("Fantasy"), "BoekOpBouw.Boek heeft niet het verwachte genre");
+        assertTrue(Arrays.asList(toegevoegdBoek.getGenres()).contains("Fantasy"), "Boek heeft niet het verwachte genre");
         assertEquals(2000, toegevoegdBoek.getJaar(), "Verkeerd jaar toegevoegd");
         assertEquals("J.K. Rowling", toegevoegdBoek.getAuteur(), "Verkeerde schrijver toegevoegd");
-        assertEquals("Een geweldig boek", toegevoegdBoek.getSpeciaal(), "Onjuiste speciale status van het boek");
-        assertEquals("niet speciaal", toegevoegdBoek.getOpmerking(), "Onjuiste opmerking over het boek");
+        assertEquals("niet speciaal", toegevoegdBoek.getSpeciaal(),"Verkeerde schrijver toegevoegd");
+        assertEquals("Een geweldig boek", toegevoegdBoek.getOpmerking(), "Onjuiste opmerking over het boek");
     }
 
     @Test
     void verwijderBoek() {
-        CSVBoekKast boekKast = new CSVBoekKast("untitled2\\src\\temp.csv");
         GelezenBoek gelezenBoek = new GelezenBoek(true);
         TitelBoek titelBoek = new TitelBoek("Testboek");
         GenreBoek genreBoek = new GenreBoek(new String[]{"test"});
@@ -67,12 +69,10 @@ public class BoekControllerTest {
                 "Y\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-        HomePage homePage = new HomePage(boekKast);
-
-        homePage.verwijderBoek();
+        BoekController boekController = new BoekController(boekKast);
+        boekController.verwijderBoek();
 
         List<Boek> gevondenBoekenNaVerwijdering = boekKast.zoekBoekenOpNaam("Testboek");
         assertTrue(gevondenBoekenNaVerwijdering.isEmpty(), "Testboek moet niet meer aanwezig zijn na verwijdering");
     }
 }
-

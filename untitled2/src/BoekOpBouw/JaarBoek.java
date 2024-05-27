@@ -15,10 +15,4 @@ public class JaarBoek {
         this.jaar = jaar;
     }
 
-    @Override
-    public String toString() {
-        return "JaarBoek{" +
-                "jaar=" + jaar +
-                '}';
-    }
 }

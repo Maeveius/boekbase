@@ -15,10 +15,4 @@ public class GelezenBoek {
         this.gelezen = gelezen;
     }
 
-    @Override
-    public String toString() {
-        return "GelezenBoek{" +
-                "gelezen=" + gelezen +
-                '}';
-    }
 }
