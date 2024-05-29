@@ -1,21 +1,28 @@
 import BoekOpBouw.Boek;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HomePage implements BoekKastObserver{
+public class HomePage implements BoekKastObserver {
+    private ZoekBoek zoekBoek;
+    private BoekErAf boekErAf;
+    private BoekUpdate boekUpdate;
+    private BoekErBij boekErBij;
     private Scanner scanner;
-    private BoekKast boekKast;
+    private List<BoekKastObserver> observers;
 
-    public HomePage(BoekKast boekKast) {
+
+    public HomePage(ZoekBoek zoekBoek, BoekErAf boekErAf, BoekUpdate boekUpdate, BoekErBij boekErBij) {
+        this.zoekBoek = zoekBoek;
+        this.boekErAf = boekErAf;
+        this.boekUpdate = boekUpdate;
+        this.boekErBij = boekErBij;
         this.scanner = new Scanner(System.in);
-        this.boekKast = boekKast;
+        this.observers = new ArrayList<>();
     }
 
     public int toonMenu() {
         int keuze;
-
         do {
             System.out.println("         Wat wil je doen?");
             System.out.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
@@ -54,7 +61,7 @@ public class HomePage implements BoekKastObserver{
     }
 
     public void voegNieuwBoekToe() {
-        BoekController controller = new BoekController(boekKast);
+        BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
         controller.voegBoekToe();
     }
 
@@ -69,7 +76,7 @@ public class HomePage implements BoekKastObserver{
             System.out.println("Voer de naam van het boek in dat je wilt aanpassen:");
             String boekNaam = scanner.nextLine();
 
-            List<Boek> gevondenBoeken = boekKast.zoekBoekenOpNaam(boekNaam);
+            List<Boek> gevondenBoeken = zoekBoek.zoekBoekenOpNaam(boekNaam);
 
             if (gevondenBoeken.isEmpty()) {
                 System.out.println("Geen boeken gevonden met de opgegeven naam.");
@@ -89,36 +96,38 @@ public class HomePage implements BoekKastObserver{
             int keuze = scanner.nextInt();
             scanner.nextLine();
 
+            BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
+
             switch (keuze) {
                 case 1:
                     System.out.println("Voer de nieuwe naam in:");
                     String nieuweNaam = scanner.nextLine();
-                    boekKast.updateBoek("Naam", teWijzigenBoek.getTitel().getTitel(), nieuweNaam);
+                    controller.updateBoek("Naam", teWijzigenBoek.getTitel().getTitel(), nieuweNaam);
                     System.out.println("Naam succesvol gewijzigd.");
                     break;
                 case 2:
                     System.out.println("Voer het nieuwe genre in:");
                     String nieuwGenre = scanner.nextLine();
-                    boekKast.updateBoek("Genre", String.join(",", teWijzigenBoek.getGenres().getGenres()), nieuwGenre);
+                    controller.updateBoek("Genre", String.join(",", teWijzigenBoek.getGenres().getGenres()), nieuwGenre);
                     System.out.println("Genre succesvol gewijzigd.");
                     break;
                 case 3:
                     System.out.println("Voer het nieuwe jaar in:");
                     int nieuwJaar = scanner.nextInt();
                     scanner.nextLine();
-                    boekKast.updateBoek("Jaar", Integer.toString(teWijzigenBoek.getJaar().getJaar()), Integer.toString(nieuwJaar));
+                    controller.updateBoek("Jaar", Integer.toString(teWijzigenBoek.getJaar().getJaar()), Integer.toString(nieuwJaar));
                     System.out.println("Jaar succesvol gewijzigd.");
                     break;
                 case 4:
                     System.out.println("Voer de nieuwe schrijver in:");
                     String nieuweSchrijver = scanner.nextLine();
-                    boekKast.updateBoek("Schrijver", teWijzigenBoek.getAuteur().getAuteur(), nieuweSchrijver);
+                    controller.updateBoek("Schrijver", teWijzigenBoek.getAuteur().getAuteur(), nieuweSchrijver);
                     System.out.println("Schrijver succesvol gewijzigd.");
                     break;
                 case 5:
                     System.out.println("Voer de nieuwe opmerking in:");
                     String nieuweOpmerking = scanner.nextLine();
-                    boekKast.updateBoek("Opmerking", teWijzigenBoek.getOpmerking().getOpmerking(), nieuweOpmerking);
+                    controller.updateBoek("Opmerking", teWijzigenBoek.getOpmerking().getOpmerking(), nieuweOpmerking);
                     System.out.println("Opmerking succesvol gewijzigd.");
                     break;
                 default:
@@ -135,8 +144,9 @@ public class HomePage implements BoekKastObserver{
         System.out.println("Y/N");
         String vraag92 = scanner.nextLine();
         if (vraag92.equalsIgnoreCase("Y")) {
+            BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
+            controller.verwijderBoek(naam);
             System.out.println("Oké, het is verwijderd");
-            boekKast.verwijderBoek(naam);
         } else if (vraag92.equalsIgnoreCase("N")) {
             System.out.println("Dat dacht ik al");
         } else {
@@ -159,35 +169,37 @@ public class HomePage implements BoekKastObserver{
 
         List<Boek> resultaten = new ArrayList<>();
 
+        BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
+
         switch (vraag21) {
             case 1:
                 System.out.println("Type de naam:");
                 String vraag211 = scanner.nextLine();
-                resultaten = boekKast.zoekBoekenOpNaam(vraag211);
+                resultaten = controller.zoekBoekenOpNaam(vraag211);
                 break;
             case 2:
                 System.out.println("Welke genre valt het onder (je kan meerdere nemen):");
                 String vraag212 = scanner.nextLine();
-                resultaten = boekKast.zoekBoekenOpGenre(vraag212);
+                resultaten = controller.zoekBoekenOpGenre(vraag212);
                 break;
             case 3:
                 System.out.println("Uit welk jaar komt het boek:");
                 int vraag213 = scanner.nextInt();
                 scanner.nextLine();
-                resultaten = boekKast.zoekBoekenOpJaar(vraag213);
+                resultaten = controller.zoekBoekenOpJaar(vraag213);
                 break;
             case 4:
                 System.out.println("Weet je de schrijver:");
                 String vraag214 = scanner.nextLine();
-                resultaten = boekKast.zoekBoekenOpSchrijver(vraag214);
+                resultaten = controller.zoekBoekenOpSchrijver(vraag214);
                 break;
             case 5:
                 System.out.println("Hier zijn alle gelezen boeken:");
-                resultaten = boekKast.zoekBoekenOpGelezen(true);
+                resultaten = controller.zoekBoekenOpGelezen(true);
                 break;
             case 6:
                 System.out.println("Hier zijn alle boeken die je nog niet gelezen hebt:");
-                resultaten = boekKast.zoekBoekenOpGelezen(false);
+                resultaten = controller.zoekBoekenOpGelezen(false);
                 break;
 
             default:

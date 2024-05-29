@@ -11,10 +11,9 @@ public class Main {
             }
         }
 
-        // Assuming successful login, proceed with the rest of the application
-        BoekKast boekKast1 = new CSVBoekKast("untitled2\\src\\data.csv");
-        BoekController controller = new BoekController(boekKast1);
-        HomePage homePage = new HomePage(boekKast1);
+        CSVBoekKast boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
+        BoekController controller = new BoekController(boekKast, boekKast, boekKast, boekKast);
+        HomePage homePage = new HomePage(boekKast, boekKast, boekKast, boekKast);
 
         controller.registreerObserver(homePage);
         try {
@@ -23,7 +22,7 @@ public class Main {
                 keuze = homePage.toonMenu();
                 switch (keuze) {
                     case 1:
-                        controller.voegBoekToe();
+                        homePage.voegNieuwBoekToe();
                         break;
                     case 2:
                         homePage.genreUpdate();
@@ -32,7 +31,7 @@ public class Main {
                         homePage.wijzigen();
                         break;
                     case 4:
-                        controller.verwijderBoek();
+                        homePage.verwijderBoek();
                         break;
                     case 5:
                         System.out.println("Bedankt voor het gebruik van het boekenbeheersysteem.");
