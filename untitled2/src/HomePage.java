@@ -3,14 +3,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class HomePage implements BoekKastObserver {
+public class HomePage implements BoekKastObserver, ObserverOnderwerp {
     private ZoekBoek zoekBoek;
     private BoekErAf boekErAf;
     private BoekUpdate boekUpdate;
     private BoekErBij boekErBij;
     private Scanner scanner;
     private List<BoekKastObserver> observers;
-
 
     public HomePage(ZoekBoek zoekBoek, BoekErAf boekErAf, BoekUpdate boekUpdate, BoekErBij boekErBij) {
         this.zoekBoek = zoekBoek;
@@ -63,6 +62,7 @@ public class HomePage implements BoekKastObserver {
     public void voegNieuwBoekToe() {
         BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
         controller.voegBoekToe();
+        notifyObservers();
     }
 
     public void wijzigen() {
@@ -133,6 +133,7 @@ public class HomePage implements BoekKastObserver {
                 default:
                     System.out.println("Ongeldige keuze.");
             }
+            notifyObservers();
         }
     }
 
@@ -147,6 +148,7 @@ public class HomePage implements BoekKastObserver {
             BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
             controller.verwijderBoek(naam);
             System.out.println("Oké, het is verwijderd");
+            notifyObservers();
         } else if (vraag92.equalsIgnoreCase("N")) {
             System.out.println("Dat dacht ik al");
         } else {
@@ -223,21 +225,32 @@ public class HomePage implements BoekKastObserver {
 
     @Override
     public void update(List<Boek> boeken) {
-
+        System.out.println("Observer is op de hoogte gesteld van de nieuwe boekenlijst:");
+        for (Boek boek : boeken) {
+            System.out.println("Titel: " + boek.getTitel());
+        }
     }
 
     @Override
-    public boolean contains(BoekKastObserver observer) {
-        return false;
+    public void addObserver(BoekKastObserver observer) {
+        if (observer != null && !observers.contains(observer)) {
+            observers.add(observer);
+            System.out.println("Observer succesvol geregistreerd.");
+        } else {
+            System.out.println("Observer is null of al geregistreerd. Registratie mislukt.");
+        }
     }
 
     @Override
-    public void add(BoekKastObserver observer) {
-
+    public void removeObserver(BoekKastObserver observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public void remove(BoekKastObserver observer) {
-
+    public void notifyObservers() {
+        List<Boek> boeken = zoekBoek.zoekOpAlles();
+        for (BoekKastObserver observer : observers) {
+            observer.update(boeken);
+        }
     }
 }
