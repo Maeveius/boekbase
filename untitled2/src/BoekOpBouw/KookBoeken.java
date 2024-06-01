@@ -1,7 +1,7 @@
 package BoekOpBouw;
 
 public class KookBoeken extends SpeciaalBoek {
-    public KookBoeken(GelezenBoek gelezen, TitelBoek titel, GenreBoek genres, JaarBoek jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
+    public KookBoeken(boolean gelezen, String titel, String[] genres, int jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
         super(gelezen, titel, genres, jaar, auteur, speciaal,opmerking);
     }
 

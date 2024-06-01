@@ -29,9 +29,11 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
     @Override
     public void voegBoekToe(Boek boek) {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
-            writer.println(String.format("%b,%s,%s,%d,%s,%s,%s",
-                    boek.getGelezen().isGelezen(), boek.getTitel().getTitel(), String.join(",", boek.getGenres().getGenres()),
-                    boek.getJaar().getJaar(), boek.getAuteur().getAuteur(), boek.getSpeciaal().toString(), boek.getOpmerking().getOpmerking()));
+            writer.println(String.format("%b,%s,%s,%d,%s,%d,%s,%s,%s",
+                    boek.getGelezen(), boek.getTitel(), String.join(",", boek.getGenres()),
+                    boek.getJaar(), boek.getAuteur(), boek.getAuteurBoek().getGeboortejaar(),
+                    boek.getAuteurBoek().getBesteBoek(), boek.getAuteurBoek().getAlgemeneInformatie(),
+                    boek.getOpmerking()));
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
             meldObservers();
         } catch (IOException e) {
@@ -45,37 +47,20 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             File inputFile = new File(bestandsnaam);
             File tempFile = new File("untitled2\\temp.csv");
 
-            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                 BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
-            String currentLine;
-
-            while ((currentLine = reader.readLine()) != null) {
-                if (currentLine.trim().isEmpty() || !currentLine.contains(",")) {
-                    System.out.println("Ongeldige regel in CSV-bestand: " + currentLine);
-                    continue;
-                }
-
-                String[] gegevens = currentLine.split(",");
-                if (gegevens.length >= 6) {
-                    String boekNaam = gegevens[1].trim();
-
-                    if (!boekNaam.equalsIgnoreCase(naam)) {
+                String currentLine;
+                while ((currentLine = reader.readLine()) != null) {
+                    String[] gegevens = currentLine.split(",");
+                    if (gegevens.length >= 9 && !gegevens[1].equalsIgnoreCase(naam)) {
                         writer.write(currentLine + System.lineSeparator());
                     }
                 }
             }
 
-            writer.close();
-            reader.close();
-
-            if (!inputFile.delete()) {
-                System.out.println("Kon het originele bestand niet verwijderen");
-                return;
-            }
-
-            if (!tempFile.renameTo(inputFile)) {
-                System.out.println("Kon het tijdelijke bestand niet hernoemen");
+            if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
+                System.out.println("Kon het bestand niet bijwerken.");
             } else {
                 System.out.println("Boek succesvol verwijderd.");
             }
@@ -85,18 +70,15 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
         }
     }
 
-
-
     @Override
     public void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde) {
         List<String> updatedLines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
             String line;
-
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(",");
-                if (gegevens.length >= 6) {
+                if (gegevens.length >= 9) {
                     switch (criterium.toLowerCase()) {
                         case "naam":
                             if (gegevens[1].equalsIgnoreCase(oudeWaarde)) {
@@ -136,8 +118,6 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                     System.out.println("Ongeldige regel in CSV-bestand: " + line);
                 }
             }
-
-
             updateCSV(updatedLines);
             System.out.println("Boek succesvol aangepast.");
             meldObservers();
@@ -146,8 +126,6 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             e.printStackTrace();
         }
     }
-
-
 
     @Override
     public List<Boek> zoekOpAlles() {
@@ -165,20 +143,17 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                     String schrijver = gegevens[4];
                     String opmerking = gegevens[5];
                     String speciaal = gegevens[6];
-                    GelezenBoek gelezenBoek = new GelezenBoek(gelezen);
-                    TitelBoek titelBoek = new TitelBoek(naam);
-                    GenreBoek genreBoek = new GenreBoek(genres);
-                    JaarBoek jaarBoek = new JaarBoek(jaar);
-                    AuteurBoek auteurBoek = new AuteurBoek(schrijver);
-                    OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking);
+
+                    AuteurBoek auteurBoek = new AuteurBoek(schrijver, 0,"","");
+                    OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
 
                     Boek boek;
                     if ("CD".equalsIgnoreCase(speciaal)) {
-                        boek = new CD(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                        boek = new CD(gelezen, naam, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
                     } else if ("KookBoeken".equalsIgnoreCase(speciaal)) {
-                        boek = new KookBoeken(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                        boek = new KookBoeken(gelezen, naam, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
                     } else {
-                        boek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                        boek = new Boek(gelezen, naam, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
                     }
                     gevondenBoeken.add(boek);
                 }
@@ -241,9 +216,9 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
 
     private List<Boek> zoekEnToonResultaten(String criterium, String waarde) {
         List<Boek> gevondenBoeken = new ArrayList<>();
+
         try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
             String line;
-
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(",");
                 if (gegevens.length >= 7) {
@@ -288,27 +263,23 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
 
         private static Boek getBoek(String[] gegevens) {
             boolean gelezen = Boolean.parseBoolean(gegevens[0]);
-            String naam = gegevens[1];
-            String[] genres = gegevens[2].split(",");
+            String titel = gegevens[1];
+            String[] genre = gegevens[2].split(",");
             int jaar = Integer.parseInt(gegevens[3]);
             String schrijver = gegevens[4];
-            String opmerking = gegevens[5];
-            String speciaal = gegevens[6];
+            String opmerking = gegevens[6];
+            String speciaal = gegevens[5];
 
-            GelezenBoek gelezenBoek = new GelezenBoek(gelezen);
-            TitelBoek titelBoek = new TitelBoek(naam);
-            GenreBoek genreBoek = new GenreBoek(genres);
-            JaarBoek jaarBoek = new JaarBoek(jaar);
-            AuteurBoek auteurBoek = new AuteurBoek(schrijver);
-            OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking);
+            AuteurBoek auteurBoek = new AuteurBoek(schrijver, 0,"","");
+            OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
 
             Boek boek;
             if ("CD".equalsIgnoreCase(speciaal)) {
-                boek = new CD(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                boek = new CD(gelezen, titel, genre, jaar, auteurBoek, speciaal, opmerkingBoek);
             } else if ("KookBoeken".equalsIgnoreCase(speciaal)) {
-                boek = new KookBoeken(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                boek = new KookBoeken(gelezen, titel, genre, jaar, auteurBoek, speciaal, opmerkingBoek);
             } else {
-                boek = new Boek(gelezenBoek, titelBoek, genreBoek, jaarBoek, auteurBoek, speciaal, opmerkingBoek);
+                boek = new Boek(gelezen, titel, genre, jaar, auteurBoek, speciaal, opmerkingBoek);
             }
 
             return boek;

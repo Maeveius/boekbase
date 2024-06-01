@@ -1,7 +1,7 @@
 package BoekOpBouw;
 
 public class CD extends SpeciaalBoek {
-    public CD(GelezenBoek gelezen, TitelBoek titel, GenreBoek genres, JaarBoek jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
+    public CD(boolean gelezen, String titel, String[] genres, int jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
         super(gelezen, titel, genres, jaar, auteur, speciaal, opmerking);
     }
 

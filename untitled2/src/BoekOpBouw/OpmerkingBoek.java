@@ -2,9 +2,11 @@ package BoekOpBouw;
 
 public class OpmerkingBoek {
     private String opmerking;
+    private String details;
 
-    public OpmerkingBoek(String opmerking) {
+    public OpmerkingBoek(String opmerking, String details) {
         this.opmerking = opmerking;
+        this.details = details;
     }
 
     public String getOpmerking() {
@@ -13,6 +15,14 @@ public class OpmerkingBoek {
 
     public void setOpmerking(String opmerking) {
         this.opmerking = opmerking;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     @Override

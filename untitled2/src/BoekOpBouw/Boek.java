@@ -1,16 +1,15 @@
 package BoekOpBouw;
 
-
-public class Boek {
-    private GelezenBoek gelezen;
-    private TitelBoek titel;
-    private GenreBoek genres;
-    private JaarBoek jaar;
+public class Boek implements ComponenteVanHetBoek {
+    private boolean gelezen;
+    private String titel;
+    private String[] genres;
+    private int jaar;
     private AuteurBoek auteur;
     private String speciaal;
     private OpmerkingBoek opmerking;
 
-    public Boek(GelezenBoek gelezen, TitelBoek titel, GenreBoek genres, JaarBoek jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
+    public Boek(boolean gelezen, String titel, String[] genres, int jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
         this.gelezen = gelezen;
         this.titel = titel;
         this.genres = genres;
@@ -20,44 +19,48 @@ public class Boek {
         this.opmerking = opmerking;
     }
 
-    public GelezenBoek getGelezen() {
-        return gelezen;
-    }
+    // Bestaande methoden
 
-    public TitelBoek getTitel() {
-        return titel;
-    }
-
-    public GenreBoek getGenres() {
-        return genres;
-    }
-
-    public JaarBoek getJaar() {
-        return jaar;
-    }
-
-    public AuteurBoek getAuteur() {
+    public AuteurBoek getAuteurBoek() {
         return auteur;
     }
 
-    public String getSpeciaal() {
-        return speciaal;
-    }
-
-    public OpmerkingBoek getOpmerking() {
+    public OpmerkingBoek getOpmerkingBoek() {
         return opmerking;
     }
 
     @Override
-    public String toString() {
-        return "Boek{" +
-                "gelezen=" + gelezen +
-                ", titel=" + titel +
-                ", genres=" + genres +
-                ", jaar=" + jaar +
-                ", auteur=" + auteur +
-                ", speciaal='" + speciaal + '\'' +
-                ", opmerking=" + opmerking +
-                '}';
+    public boolean getGelezen() {
+        return gelezen;
+    }
+
+    @Override
+    public String getTitel() {
+        return titel;
+    }
+
+    @Override
+    public String[] getGenres() {
+        return genres;
+    }
+
+    @Override
+    public int getJaar() {
+        return jaar;
+    }
+
+    @Override
+    public String getAuteur() {
+        return auteur.getAuteur();
+    }
+
+    @Override
+    public String getSpeciaal() {
+        return speciaal;
+    }
+
+    @Override
+    public String getOpmerking() {
+        return opmerking.getOpmerking();
     }
 }

@@ -26,28 +26,37 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         System.out.println("2. Wil er 1 lezen");
         int gelezenInput = scanner.nextInt();
         scanner.nextLine();
-        GelezenBoek gelezen = new GelezenBoek(gelezenInput == 1);
+        boolean gelezen = gelezenInput == 1;
 
         System.out.print("Welk boek heb je gelezen of wil je lezen?: ");
         String naam = scanner.nextLine();
-        TitelBoek titel = new TitelBoek(naam);
+        String titel = naam;
 
         System.out.println("Maar welke genre/genres heeft het?");
         String[] genresArray = scanner.nextLine().split(", ");
-        GenreBoek genres = new GenreBoek(genresArray);
+        String[] genres = genresArray;
 
         System.out.print("Uit welk jaar komt het boek eigenlijk?: ");
         int jaarInput = scanner.nextInt();
         scanner.nextLine();
-        JaarBoek jaar = new JaarBoek(jaarInput);
+        int jaar = jaarInput;
 
         System.out.print("En wie is de schrijver?: ");
         String schrijverNaam = scanner.nextLine();
-        AuteurBoek auteur = new AuteurBoek(schrijverNaam);
+        System.out.print("Geboortejaar van de schrijver?: ");
+        int geboortejaar = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Wat is het beste boek van de schrijver?: ");
+        String besteBoek = scanner.nextLine();
+        System.out.print("Algemene informatie over de schrijver?: ");
+        String algemeneInformatie = scanner.nextLine();
+        AuteurBoek auteur = new AuteurBoek(schrijverNaam, geboortejaar, besteBoek, algemeneInformatie);
 
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
         String opmerkingText = scanner.nextLine();
-        OpmerkingBoek opmerking = new OpmerkingBoek(opmerkingText);
+        System.out.print("Meer details over de opmerking?: ");
+        String details = scanner.nextLine();
+        OpmerkingBoek opmerking = new OpmerkingBoek(opmerkingText, details);
 
         System.out.println("Is het een speciaal boek? (CD/Kookboek)");
         System.out.println("1. CD");
@@ -138,7 +147,7 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
 
     @Override
     public void voegBoekToe(Boek boek) {
-
+        boekErBij.voegBoekToe(boek);
     }
 
     @Override
