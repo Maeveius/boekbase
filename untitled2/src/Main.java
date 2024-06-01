@@ -1,7 +1,10 @@
+import login.AccountFactory;
+import login.ConcreteAccountFactory;
 import login.Login;
 
 public class Main {
     public static void main(String[] args) {
+        AccountFactory accountFactory = new ConcreteAccountFactory();
         Login login = new Login();
         boolean loggedIn = false;
 
