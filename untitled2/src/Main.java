@@ -5,13 +5,11 @@ import login.Login;
 public class Main {
     public static void main(String[] args) {
         AccountFactory accountFactory = new ConcreteAccountFactory();
-        Login login = new Login();
+        Login login = new Login(accountFactory);
         boolean loggedIn = false;
 
         while (!loggedIn) {
-            loggedIn = login.logins();  // Assuming logins() returns true on successful login
-            if (!loggedIn) {
-            }
+            loggedIn = login.logins();
         }
 
         CSVBoekKast boekKast = new CSVBoekKast("untitled2\\src\\data.csv");
@@ -19,29 +17,21 @@ public class Main {
         HomePage homePage = new HomePage(boekKast, boekKast, boekKast, boekKast);
 
         controller.registreerObserver(homePage);
+
         try {
             int keuze;
             do {
                 keuze = homePage.toonMenu();
                 switch (keuze) {
-                    case 1:
-                        homePage.voegNieuwBoekToe();
-                        break;
-                    case 2:
-                        homePage.genreUpdate();
-                        break;
-                    case 3:
-                        homePage.wijzigen();
-                        break;
-                    case 4:
-                        homePage.verwijderBoek();
-                        break;
-                    case 5:
+                    case 1 -> homePage.voegNieuwBoekToe();
+                    case 2 -> homePage.genreUpdate();
+                    case 3 -> homePage.wijzigen();
+                    case 4 -> homePage.verwijderBoek();
+                    case 5 -> {
                         System.out.println("Bedankt voor het gebruik van het boekenbeheersysteem.");
                         System.exit(0);
-                        break;
-                    default:
-                        System.out.println("Ongeldige keuze. Probeer opnieuw.");
+                    }
+                    default -> System.out.println("Ongeldige keuze. Probeer opnieuw.");
                 }
             } while (keuze != 5);
         } catch (Exception e) {

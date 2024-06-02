@@ -1,9 +1,8 @@
 package login;
 
-public class GebruikersNaam extends Login {
+public class GebruikersNaam {
     String gebruikersNaame;
     public GebruikersNaam(String gebruikersNaame) {
-        super();
         this.gebruikersNaame = gebruikersNaame;
 
     }

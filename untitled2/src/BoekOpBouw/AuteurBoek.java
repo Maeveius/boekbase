@@ -6,47 +6,35 @@ public class AuteurBoek {
     private String besteBoek;
     private String algemeneInformatie;
 
-    public AuteurBoek(String auteur, int geboortejaar, String besteBoek, String algemeneInformatie) {
-        this.auteur = auteur;
-        this.geboortejaar = geboortejaar;
-        this.besteBoek = besteBoek;
-        this.algemeneInformatie = algemeneInformatie;
+    public AuteurBoek(String alles) {
+        String[] gegevens = alles.split(",");
+        if (gegevens.length < 4) {
+            throw new IllegalArgumentException("Onvoldoende gegevens om AuteurBoek aan te maken. Verwacht: 4, Ontvangen: " + gegevens.length);
+        }
+        this.auteur = gegevens[0];
+        this.geboortejaar = Integer.parseInt(gegevens[1]);
+        this.besteBoek = gegevens[2];
+        this.algemeneInformatie = gegevens[3];
     }
 
     public String getAuteur() {
         return auteur;
     }
 
-    public void setAuteur(String auteur) {
-        this.auteur = auteur;
-    }
-
     public int getGeboortejaar() {
         return geboortejaar;
-    }
-
-    public void setGeboortejaar(int geboortejaar) {
-        this.geboortejaar = geboortejaar;
     }
 
     public String getBesteBoek() {
         return besteBoek;
     }
 
-    public void setBesteBoek(String besteBoek) {
-        this.besteBoek = besteBoek;
-    }
-
     public String getAlgemeneInformatie() {
         return algemeneInformatie;
     }
 
-    public void setAlgemeneInformatie(String algemeneInformatie) {
-        this.algemeneInformatie = algemeneInformatie;
-    }
-
     @Override
     public String toString() {
-        return auteur;
+        return String.format("%s,%d,%s,%s", auteur, geboortejaar, besteBoek, algemeneInformatie);
     }
 }

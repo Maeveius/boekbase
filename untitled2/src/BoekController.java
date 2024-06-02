@@ -21,43 +21,76 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     }
 
     public void voegBoekToe() {
+        boolean gelezen = vraagOfBoekGelezenIs();
+        String titel = vraagOmBoekTitel();
+        String[] genres = vraagOmGenres();
+        int jaar = vraagOmJaar();
+        AuteurBoek auteur = vraagOmAuteur();
+        OpmerkingBoek opmerking = vraagOmOpmerking();
+        Boek nieuwBoek = maakBoek(titel, genres, jaar, auteur, opmerking, gelezen);
+
+        boekErBij.voegBoekToe(nieuwBoek);
+        meldObservers();
+        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
+    }
+
+    private boolean vraagOfBoekGelezenIs() {
         System.out.println("Heb je een nieuw boek gelezen of wil je er nog 1 lezen?");
         System.out.println("1. Heb er 1 gelezen");
         System.out.println("2. Wil er 1 lezen");
         int gelezenInput = scanner.nextInt();
         scanner.nextLine();
-        boolean gelezen = gelezenInput == 1;
+        return gelezenInput == 1;
+    }
 
+    private String vraagOmBoekTitel() {
         System.out.print("Welk boek heb je gelezen of wil je lezen?: ");
-        String naam = scanner.nextLine();
-        String titel = naam;
+        return scanner.nextLine();
+    }
 
+    private String[] vraagOmGenres() {
         System.out.println("Maar welke genre/genres heeft het?");
-        String[] genresArray = scanner.nextLine().split(", ");
-        String[] genres = genresArray;
+        return scanner.nextLine().split(", ");
+    }
 
+    private int vraagOmJaar() {
         System.out.print("Uit welk jaar komt het boek eigenlijk?: ");
         int jaarInput = scanner.nextInt();
         scanner.nextLine();
-        int jaar = jaarInput;
+        return jaarInput;
+    }
 
+    private AuteurBoek vraagOmAuteur() {
         System.out.print("En wie is de schrijver?: ");
-        String schrijverNaam = scanner.nextLine();
-        System.out.print("Geboortejaar van de schrijver?: ");
-        int geboortejaar = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Wat is het beste boek van de schrijver?: ");
-        String besteBoek = scanner.nextLine();
-        System.out.print("Algemene informatie over de schrijver?: ");
-        String algemeneInformatie = scanner.nextLine();
-        AuteurBoek auteur = new AuteurBoek(schrijverNaam, geboortejaar, besteBoek, algemeneInformatie);
+        String naam = scanner.nextLine();
+        System.out.println("Weet je nog meer over de schrijver (Y/N)");
+        String antwoord = scanner.nextLine();
 
+        if (antwoord.equalsIgnoreCase("Y")) {
+            System.out.print("Geboortejaar van de schrijver?: ");
+            int geboortejaar = scanner.nextInt();
+            scanner.nextLine();
+            System.out.print("Wat is het beste boek van de schrijver?: ");
+            String besteBoek = scanner.nextLine();
+            System.out.print("Algemene informatie over de schrijver?: ");
+            String algemeneInformatie = scanner.nextLine();
+            String alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
+            return new AuteurBoek(alles);
+        } else {
+            String alles = String.format("%s,%d,%s,%s", naam, 0, "", "");
+            return new AuteurBoek(alles);
+        }
+    }
+
+    private OpmerkingBoek vraagOmOpmerking() {
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
         String opmerkingText = scanner.nextLine();
         System.out.print("Meer details over de opmerking?: ");
         String details = scanner.nextLine();
-        OpmerkingBoek opmerking = new OpmerkingBoek(opmerkingText, details);
+        return new OpmerkingBoek(opmerkingText, details);
+    }
 
+    private Boek maakBoek(String titel, String[] genres, int jaar, AuteurBoek auteur, OpmerkingBoek opmerking, boolean gelezen) {
         System.out.println("Is het een speciaal boek? (CD/Kookboek)");
         System.out.println("1. CD");
         System.out.println("2. Kookboek");
@@ -65,18 +98,14 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         int keuzeSpeciaal = scanner.nextInt();
         scanner.nextLine();
 
-        Boek nieuwBoek;
-        if (keuzeSpeciaal == 1) {
-            nieuwBoek = new CD(gelezen, titel, genres, jaar, auteur, "CD", opmerking);
-        } else if (keuzeSpeciaal == 2) {
-            nieuwBoek = new KookBoeken(gelezen, titel, genres, jaar, auteur, "Kookboek", opmerking);
-        } else {
-            nieuwBoek = new Boek(gelezen, titel, genres, jaar, auteur, "niet speciaal", opmerking);
+        switch (keuzeSpeciaal) {
+            case 1:
+                return new CD(gelezen, titel, genres, jaar, auteur, "CD", opmerking);
+            case 2:
+                return new KookBoeken(gelezen, titel, genres, jaar, auteur, "Kookboek", opmerking);
+            default:
+                return new Boek(gelezen, titel, genres, jaar, auteur, "niet speciaal", opmerking);
         }
-
-        boekErBij.voegBoekToe(nieuwBoek);
-        meldObservers();
-        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
     }
 
     @Override

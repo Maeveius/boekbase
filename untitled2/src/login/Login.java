@@ -6,7 +6,7 @@ public class Login {
     private Scanner sc = new Scanner(System.in);
     private AccountFactory accountFactory;
 
-    public Login() {
+    public Login(AccountFactory accountFactory) {
         this.accountFactory = accountFactory;
     }
 

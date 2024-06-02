@@ -4,12 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvAccountMannager{
+public class CsvAccountMannager {
     private final String bestandsnaam;
 
     public CsvAccountMannager(String bestandsnaam) {
         this.bestandsnaam = bestandsnaam;
     }
+
     private void updateCSVAccount(List<String> lines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(bestandsnaam))) {
             for (String line : lines) {
@@ -41,7 +42,7 @@ public class CsvAccountMannager{
         try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
+                String[] parts = line.split(";");
                 if (parts[0].equals(gebruikersNaam.getGebruikersNaame()) && parts[1].equals(wachtWoord.getWachtwoord())) {
                     return true;
                 }
