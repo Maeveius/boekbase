@@ -24,7 +24,7 @@ public class Main {
                 keuze = homePage.toonMenu();
                 switch (keuze) {
                     case 1 -> homePage.voegNieuwBoekToe();
-                    case 2 -> homePage.genreUpdate();
+                    case 2 -> homePage.zoekBoekMenu();
                     case 3 -> homePage.wijzigen();
                     case 4 -> homePage.verwijderBoek();
                     case 5 -> {

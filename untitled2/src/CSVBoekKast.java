@@ -31,8 +31,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
             writer.println(String.format("%b;%s;%s;%d;%s;%s;%s",
                     boek.getGelezen(), boek.getTitel(), String.join(",", boek.getGenres()),
-                    boek.getJaar(), boek.getAuteurBoek() ,boek.getAuteurBoek().getAlgemeneInformatie(), boek.getSpeciaal(),
-                    boek.getOpmerking()));
+                    boek.getJaar(), boek.getAuteur(), boek.getSpeciaal(), boek.getOpmerking()));
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
             meldObservers();
         } catch (IOException e) {
@@ -52,7 +51,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 String currentLine;
                 while ((currentLine = reader.readLine()) != null) {
                     String[] gegevens = currentLine.split(";");
-                    if (gegevens.length >= 9 && !gegevens[1].equalsIgnoreCase(naam)) {
+                    if (!gegevens[1].equalsIgnoreCase(naam)) {
                         writer.write(currentLine + System.lineSeparator());
                     }
                 }
@@ -77,7 +76,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(";");
-                if (gegevens.length >= 9) {
+                if (gegevens.length >= 6) {
                     switch (criterium.toLowerCase()) {
                         case "naam":
                             if (gegevens[1].equalsIgnoreCase(oudeWaarde)) {
@@ -95,8 +94,10 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                             }
                             break;
                         case "schrijver":
-                            if (gegevens[4].equalsIgnoreCase(oudeWaarde)) {
-                                gegevens[4] = nieuweWaarde;
+                            String[] auteurParts = gegevens[4].split(",");
+                            if (auteurParts[4].equalsIgnoreCase(oudeWaarde)) {
+                                auteurParts[4] = nieuweWaarde;
+                                gegevens[4] = String.join(",", auteurParts);
                             }
                             break;
                         case "opmerking":
@@ -117,6 +118,8 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                     System.out.println("Ongeldige regel in CSV-bestand: " + line);
                 }
             }
+
+
             updateCSV(updatedLines);
             System.out.println("Boek succesvol aangepast.");
             meldObservers();
@@ -130,21 +133,28 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
 public List<Boek> zoekOpAlles() {
     List<Boek> gevondenBoeken = new ArrayList<>();
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] gegevens = line.split(";");
-            if (gegevens.length >= 7) { // Aangepast naar 7 vanwege de geconsolideerde auteurinformatie
-                boolean gelezen = Boolean.parseBoolean(gegevens[0]);
-                String naam = gegevens[1];
-                String[] genres = gegevens[2].split(",");
-                int jaar = Integer.parseInt(gegevens[3]);
-                String auteurInfo = gegevens[4]; // Geconsolideerde auteurinformatie
-                String speciaal = gegevens[5];
-                String opmerking = gegevens[6];
+        try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] gegevens = line.split(";");
+                if (gegevens.length >= 6) {
+                    boolean gelezen = Boolean.parseBoolean(gegevens[0]);
+                    String naam = gegevens[1];
+                    String[] genres = gegevens[2].split(",");
+                    int jaar = Integer.parseInt(gegevens[3]);
+                    String auteurInfo = gegevens[4];
+                    String speciaal = gegevens[5];
+                    String opmerking = gegevens[6];
 
-                AuteurBoek auteurBoek = new AuteurBoek(auteurInfo);
-                OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
+                    AuteurBoek auteurBoek;
+                    try {
+                        auteurBoek = new AuteurBoek(auteurInfo);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Fout bij het aanmaken van AuteurBoek: " + e.getMessage());
+                        continue; // Sla deze regel over en ga verder met de volgende
+                    }
+
+                    OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
 
                 Boek boek;
                 if ("CD".equalsIgnoreCase(speciaal)) {
@@ -239,12 +249,13 @@ public List<Boek> zoekOpAlles() {
                         case "Schrijver":
                             currentWaarde = gegevens[4];
                             break;
-                        case "Opmerking":
-                            currentWaarde = gegevens[6];
-                            break;
                         case "Speciaal":
                             currentWaarde = gegevens[5];
                             break;
+                        case "Opmerking":
+                            currentWaarde = gegevens[6];
+                            break;
+
                     }
                     if (currentWaarde.equalsIgnoreCase(waarde)) {
                         Boek boek = BoekOpBouw.getBoek(gegevens);
@@ -264,11 +275,12 @@ public List<Boek> zoekOpAlles() {
         private static Boek getBoek(String[] gegevens) {
             boolean gelezen = Boolean.parseBoolean(gegevens[0]);
             String titel = gegevens[1];
-            String[] genre = gegevens[2].split(";");
+            String[] genre = gegevens[2].split(",");
             int jaar = Integer.parseInt(gegevens[3]);
             String schrijver = gegevens[4];
-            String opmerking = gegevens[6];
             String speciaal = gegevens[5];
+            String opmerking = gegevens[6];
+
 
             AuteurBoek auteurBoek = new AuteurBoek(schrijver);
             OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
@@ -281,7 +293,6 @@ public List<Boek> zoekOpAlles() {
                 default:
                     return new Boek(gelezen, titel, genre, jaar, auteurBoek, speciaal, opmerkingBoek);
             }
-
         }
     }
 }

@@ -66,6 +66,7 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         System.out.println("Weet je nog meer over de schrijver (Y/N)");
         String antwoord = scanner.nextLine();
 
+        String alles;
         if (antwoord.equalsIgnoreCase("Y")) {
             System.out.print("Geboortejaar van de schrijver?: ");
             int geboortejaar = scanner.nextInt();
@@ -74,12 +75,11 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
             String besteBoek = scanner.nextLine();
             System.out.print("Algemene informatie over de schrijver?: ");
             String algemeneInformatie = scanner.nextLine();
-            String alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
-            return new AuteurBoek(alles);
+            alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
         } else {
-            String alles = String.format("%s,%d,%s,%s", naam, 0, "", "");
-            return new AuteurBoek(alles);
+            alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
         }
+        return new AuteurBoek(alles);
     }
 
     private OpmerkingBoek vraagOmOpmerking() {
