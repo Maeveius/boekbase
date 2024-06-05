@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HomePage implements BoekKastObserver, ObserverOnderwerp {
-    private ZoekBoek zoekBoek;
-    private BoekErAf boekErAf;
-    private BoekUpdate boekUpdate;
-    private BoekErBij boekErBij;
-    private Scanner scanner;
-    private List<BoekKastObserver> observers;
+    private final ZoekBoek zoekBoek;
+    private final BoekErAf boekErAf;
+    private final BoekUpdate boekUpdate;
+    private final BoekErBij boekErBij;
+    private final Scanner scanner;
+    private final List<BoekKastObserver> observers;
 
     public HomePage(ZoekBoek zoekBoek, BoekErAf boekErAf, BoekUpdate boekUpdate, BoekErBij boekErBij) {
         this.zoekBoek = zoekBoek;
@@ -71,7 +71,6 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
         String vraag31 = scanner.nextLine();
         if (vraag31.equalsIgnoreCase("N")) {
             System.out.println("Grappig");
-            return;
         } else if (vraag31.equalsIgnoreCase("Y")) {
             System.out.println("Voer de naam van het boek in dat je wilt aanpassen:");
             String boekNaam = scanner.nextLine();
@@ -83,7 +82,7 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
                 return;
             }
 
-            Boek teWijzigenBoek = gevondenBoeken.get(0);
+            Boek teWijzigenBoek = gevondenBoeken.getFirst();
 
             System.out.println("Wat zou je willen aanpassen?");
             System.out.println("----------------------------");
@@ -161,7 +160,7 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
         if (scanner.nextLine().equalsIgnoreCase("Y")) {
             BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
             controller.verwijderBoek(naam);
-            System.out.println("Oké, het is verwijderd");
+            System.out.println("Boek succesvol verwijderd.");
             notifyObservers();
         } else {
             System.out.println("Dat dacht ik al");
@@ -182,7 +181,7 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
         scanner.nextLine();
 
         BoekController controller = new BoekController(zoekBoek, boekErAf, boekUpdate, boekErBij);
-        List<Boek> resultaten = new ArrayList<>();
+        List<Boek> resultaten;
 
         switch (vraag21) {
             case 1:

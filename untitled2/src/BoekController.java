@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek {
-    private ZoekBoek zoekBoek;
-    private BoekErAf boekErAf;
-    private BoekUpdate boekUpdate;
-    private BoekErBij boekErBij;
-    private Scanner scanner;
-    private List<BoekKastObserver> observers;
+    private final ZoekBoek zoekBoek;
+    private final BoekErAf boekErAf;
+    private final BoekUpdate boekUpdate;
+    private final BoekErBij boekErBij;
+    private final Scanner scanner;
+    private final List<BoekKastObserver> observers;
 
     public BoekController(ZoekBoek zoekBoek, BoekErAf boekErAf, BoekUpdate boekUpdate, BoekErBij boekErBij) {
         this.zoekBoek = zoekBoek;
@@ -98,39 +98,18 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         int keuzeSpeciaal = scanner.nextInt();
         scanner.nextLine();
 
-        switch (keuzeSpeciaal) {
-            case 1:
-                return new CD(gelezen, titel, genres, jaar, auteur, "CD", opmerking);
-            case 2:
-                return new KookBoeken(gelezen, titel, genres, jaar, auteur, "Kookboek", opmerking);
-            default:
-                return new Boek(gelezen, titel, genres, jaar, auteur, "niet speciaal", opmerking);
-        }
+        return switch (keuzeSpeciaal) {
+            case 1 -> new CD(gelezen, titel, genres, jaar, auteur, "CD", opmerking);
+            case 2 -> new KookBoeken(gelezen, titel, genres, jaar, auteur, "Kookboek", opmerking);
+            default -> new Boek(gelezen, titel, genres, jaar, auteur, "niet speciaal", opmerking);
+        };
     }
 
     @Override
     public void verwijderBoek(String naam) {
         boekErAf.verwijderBoek(naam);
         meldObservers();
-        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
-    }
-
-    public void verwijderBoek() {
-        System.out.print("Welk boek wil je verwijderen? Geef de naam: ");
-        String naam = scanner.nextLine();
-
-        System.out.println("Weet je zeker dat je dit boek wilt verwijderen: " + naam);
-        System.out.println("Y/N");
-        String antwoord = scanner.nextLine();
-
-        if (antwoord.equalsIgnoreCase("Y")) {
-            boekErAf.verwijderBoek(naam);
-            System.out.println("Oké, het is verwijderd");
-        } else if (antwoord.equalsIgnoreCase("N")) {
-            System.out.println("Dat dacht ik al");
-        } else {
-            System.out.println("Ongeldige invoer, stop.");
-        }
+        System.out.println("Boek succesvol verwijderd.");
     }
 
     @Override
@@ -188,7 +167,6 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
             System.out.println("Observer is null of al geregistreerd. Registratie mislukt.");
         }
     }
-
 
     @Override
     public void verwijderObserver(BoekKastObserver observer) {

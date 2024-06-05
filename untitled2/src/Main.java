@@ -33,7 +33,7 @@ public class Main {
                     }
                     default -> System.out.println("Ongeldige keuze. Probeer opnieuw.");
                 }
-            } while (keuze != 5);
+            } while (true);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,10 +1,10 @@
 package BoekOpBouw;
 
 public class AuteurBoek {
-    private String auteur;
-    private int geboortejaar;
-    private String besteBoek;
-    private String algemeneInformatie;
+    private final String auteur;
+    private final int geboortejaar;
+    private final String besteBoek;
+    private final String algemeneInformatie;
 
     public AuteurBoek(String alles) {
         String[] gegevens = alles.split(",");

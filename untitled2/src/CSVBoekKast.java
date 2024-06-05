@@ -39,30 +39,65 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
     @Override
     public void verwijderBoek(String naam) {
         File inputFile = new File(bestandsnaam);
-        File tempFile = new File("temp.csv");
+        File tempFile = new File(inputFile.getParent(), "temp.csv");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
              BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
             String currentLine;
+            boolean boekGevonden = false;
+
             while ((currentLine = reader.readLine()) != null) {
+                // Skip invalid lines
+                if (currentLine.trim().isEmpty() || !currentLine.contains(";")) {
+                    System.out.println("Ongeldige regel in CSV-bestand: " + currentLine);
+                    continue;
+                }
+
                 String[] gegevens = currentLine.split(";");
-                if (!gegevens[1].equalsIgnoreCase(naam)) {
-                    writer.write(currentLine + System.lineSeparator());
+                if (gegevens.length >= 7) {
+                    String boekNaam = gegevens[1].trim();
+
+                    // Write only lines that do not match the book name
+                    if (!boekNaam.equalsIgnoreCase(naam)) {
+                        writer.write(currentLine + System.lineSeparator());
+                    } else {
+                        boekGevonden = true;
+                    }
                 }
             }
 
-            if (!inputFile.delete() || !tempFile.renameTo(inputFile)) {
-                System.out.println("Kon het bestand niet bijwerken.");
-            } else {
-                System.out.println("Boek succesvol verwijderd.");
+            writer.flush();
+
+            // Close the resources
+            writer.close();
+            reader.close();
+
+            if (boekGevonden) {
+                if (!inputFile.delete()) {
+                    System.out.println("Kon het originele bestand niet verwijderen. Controleer of het bestand in gebruik is.");
+                    return;
+                }
+
+                if (!tempFile.renameTo(inputFile)) {
+                    System.out.println("Kon het tijdelijke bestand niet hernoemen.");
+                    return;
+                }
                 meldObservers();
+            } else {
+                System.out.println("Boek met naam " + naam + " niet gevonden.");
+                if (tempFile.exists() && !tempFile.delete()) {
+                    System.out.println("Kon het tijdelijke bestand niet verwijderen.");
+                }
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("Error removing book from CSV file", e);
         }
     }
+
+
 
     @Override
     public void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde) {
@@ -224,7 +259,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
         return gevondenBoeken;
     }
 
-    public class BoekOpBouw {
+    public static class BoekOpBouw {
 
         public static Boek getBoek(String[] gegevens) {
             boolean gelezen = Boolean.parseBoolean(gegevens[0]);
@@ -238,14 +273,11 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             AuteurBoek auteurBoek = new AuteurBoek(schrijver);
             OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
 
-            switch (speciaal.toLowerCase()) {
-                case "cd":
-                    return new CD(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
-                case "kookboeken":
-                    return new KookBoeken(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
-                default:
-                    return new Boek(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
-            }
+            return switch (speciaal.toLowerCase()) {
+                case "cd" -> new CD(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
+                case "kookboeken" -> new KookBoeken(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
+                default -> new Boek(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
+            };
         }
     }
 }

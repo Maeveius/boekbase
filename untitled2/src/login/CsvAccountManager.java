@@ -1,7 +1,8 @@
 package login;
 
-import java.io.*;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class CsvAccountManager {
     private static final String DELIMITER = ";";
@@ -9,33 +10,6 @@ public class CsvAccountManager {
 
     public CsvAccountManager(String bestandsnaam) {
         this.bestandsnaam = bestandsnaam;
-    }
-
-    private void updateCSVAccount(List<String> lines) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(bestandsnaam))) {
-            for (String line : lines) {
-                writer.write(line + System.lineSeparator());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void accountChecken(GebruikersNaam gebruikersNaam, WachtWoord wachtWoord) {
-        if (isValidUser(gebruikersNaam, wachtWoord)) {
-            System.out.println("Account bestaat.");
-        } else {
-            System.out.println("Account bestaat niet.");
-        }
-    }
-
-    public void accountToevoegen(GebruikersNaam gebruikersNaam, WachtWoord wachtWoord) {
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
-            writer.println(String.format("%s,%s", gebruikersNaam.getGebruikersNaam(), wachtWoord.getWachtwoord()));
-            System.out.println("Account succesvol toegevoegd aan het systeem.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public boolean isValidUser(GebruikersNaam gebruikersNaam, WachtWoord wachtWoord) {

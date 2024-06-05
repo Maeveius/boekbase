@@ -1,13 +1,13 @@
 package BoekOpBouw;
 
 public class Boek implements ComponenteVanHetBoek {
-    private boolean gelezen;
-    private String titel;
-    private String[] genres;
-    private int jaar;
-    private AuteurBoek auteur;
-    private String speciaal;
-    private OpmerkingBoek opmerking;
+    private final boolean gelezen;
+    private final String titel;
+    private final String[] genres;
+    private final int jaar;
+    private final AuteurBoek auteur;
+    private final String speciaal;
+    private final OpmerkingBoek opmerking;
 
     public Boek(boolean gelezen, String titel, String[] genres, int jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
         this.gelezen = gelezen;

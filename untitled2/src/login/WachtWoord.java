@@ -1,7 +1,7 @@
 package login;
 
 public class WachtWoord{
-    private String wachtwoord;
+    private final String wachtwoord;
 
     public WachtWoord(String wachtwoord) {
         if (wachtwoord == null || wachtwoord.isEmpty()) {

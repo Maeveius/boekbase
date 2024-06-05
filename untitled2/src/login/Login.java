@@ -3,8 +3,8 @@ package login;
 import java.util.Scanner;
 
 public class Login {
-    private Scanner sc = new Scanner(System.in);
-    private AccountFactory accountFactory;
+    private final Scanner sc = new Scanner(System.in);
+    private final AccountFactory accountFactory;
 
     public Login(AccountFactory accountFactory) {
         this.accountFactory = accountFactory;
@@ -22,7 +22,7 @@ public class Login {
         CsvAccountManager accountManager = new CsvAccountManager("untitled2\\src\\login\\accounts.csv");
 
         if (accountManager.isValidUser(gebruikersNaam, wachtWoord)) {
-            System.out.println("Welkom, " + gebruikersNaam.getGebruikersNaam() + "!");
+            System.out.println(STR."Welkom, \{gebruikersNaam.getGebruikersNaam()}!");
             return true;
         } else {
             System.out.println("Sorry, uw wachtwoord/gebruikersnaam is verkeerd.");
