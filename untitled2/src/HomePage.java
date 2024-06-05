@@ -124,18 +124,7 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
                     String antwoord = scanner.nextLine();
 
                     String alles;
-                    if (antwoord.equalsIgnoreCase("Y")) {
-                        System.out.print("Geboortejaar van de schrijver?: ");
-                        int geboortejaar = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.print("Wat is het beste boek van de schrijver?: ");
-                        String besteBoek = scanner.nextLine();
-                        System.out.print("Algemene informatie over de schrijver?: ");
-                        String algemeneInformatie = scanner.nextLine();
-                        alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
-                    } else {
-                        alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
-                    }
+                    alles = getString(naam, antwoord, scanner);
                     controller.updateBoek("Schrijver", teWijzigenBoek.getAuteur(), alles);
                     System.out.println("Schrijver succesvol gewijzigd.");
                     break;
@@ -150,6 +139,23 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
             }
             notifyObservers();
         }
+    }
+
+    static String getString(String naam, String antwoord, Scanner scanner) {
+        String alles;
+        if (antwoord.equalsIgnoreCase("Y")) {
+            System.out.print("Geboortejaar van de schrijver?: ");
+            int geboortejaar = scanner.nextInt();
+            scanner.nextLine();
+            System.out.print("Wat is het beste boek van de schrijver?: ");
+            String besteBoek = scanner.nextLine();
+            System.out.print("Algemene informatie over de schrijver?: ");
+            String algemeneInformatie = scanner.nextLine();
+            alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
+        } else {
+            alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
+        }
+        return alles;
     }
 
     public void verwijderBoek() {

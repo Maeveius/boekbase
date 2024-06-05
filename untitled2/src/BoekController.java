@@ -67,18 +67,7 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         String antwoord = scanner.nextLine();
 
         String alles;
-        if (antwoord.equalsIgnoreCase("Y")) {
-            System.out.print("Geboortejaar van de schrijver?: ");
-            int geboortejaar = scanner.nextInt();
-            scanner.nextLine();
-            System.out.print("Wat is het beste boek van de schrijver?: ");
-            String besteBoek = scanner.nextLine();
-            System.out.print("Algemene informatie over de schrijver?: ");
-            String algemeneInformatie = scanner.nextLine();
-            alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
-        } else {
-            alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
-        }
+        String alles = HomePage.getString(naam, antwoord, scanner);
         return new AuteurBoek(alles);
     }
 
