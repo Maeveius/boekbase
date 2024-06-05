@@ -1,11 +1,11 @@
 package login;
 
 public class GebruikersNaam {
-    String gebruikersNaame;
+    String gebruikersNaam;
     public GebruikersNaam(String gebruikersNaame) {
-        this.gebruikersNaame = gebruikersNaame;
+        this.gebruikersNaam = gebruikersNaame;
 
     }
-    public String getGebruikersNaame() {return gebruikersNaame;}
+    public String getGebruikersNaam() {return gebruikersNaam;}
 
 }

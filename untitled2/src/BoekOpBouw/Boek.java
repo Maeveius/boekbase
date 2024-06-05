@@ -19,8 +19,6 @@ public class Boek implements ComponenteVanHetBoek {
         this.opmerking = opmerking;
     }
 
-    // Bestaande methoden
-
     public AuteurBoek getAuteurBoek() {
         return auteur;
     }

@@ -19,10 +19,10 @@ public class Login {
         String password = sc.nextLine();
         WachtWoord wachtWoord = accountFactory.maakWachtWoord(password);
 
-        CsvAccountMannager accountManager = new CsvAccountMannager("untitled2\\src\\login\\accounts.csv");
+        CsvAccountManager accountManager = new CsvAccountManager("untitled2\\src\\login\\accounts.csv");
 
         if (accountManager.isValidUser(gebruikersNaam, wachtWoord)) {
-            System.out.println("Welkom, " + gebruikersNaam.getGebruikersNaame() + "!");
+            System.out.println("Welkom, " + gebruikersNaam.getGebruikersNaam() + "!");
             return true;
         } else {
             System.out.println("Sorry, uw wachtwoord/gebruikersnaam is verkeerd.");

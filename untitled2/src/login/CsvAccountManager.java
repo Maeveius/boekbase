@@ -1,13 +1,13 @@
 package login;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class CsvAccountMannager {
+public class CsvAccountManager {
+    private static final String DELIMITER = ";";
     private final String bestandsnaam;
 
-    public CsvAccountMannager(String bestandsnaam) {
+    public CsvAccountManager(String bestandsnaam) {
         this.bestandsnaam = bestandsnaam;
     }
 
@@ -31,7 +31,7 @@ public class CsvAccountMannager {
 
     public void accountToevoegen(GebruikersNaam gebruikersNaam, WachtWoord wachtWoord) {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
-            writer.println(String.format("%s,%s", gebruikersNaam.getGebruikersNaame(), wachtWoord.getWachtwoord()));
+            writer.println(String.format("%s,%s", gebruikersNaam.getGebruikersNaam(), wachtWoord.getWachtwoord()));
             System.out.println("Account succesvol toegevoegd aan het systeem.");
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,8 +42,8 @@ public class CsvAccountMannager {
         try (BufferedReader reader = new BufferedReader(new FileReader(bestandsnaam))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts[0].equals(gebruikersNaam.getGebruikersNaame()) && parts[1].equals(wachtWoord.getWachtwoord())) {
+                String[] parts = line.split(DELIMITER);
+                if (parts[0].equals(gebruikersNaam.getGebruikersNaam()) && parts[1].equals(wachtWoord.getWachtwoord())) {
                     return true;
                 }
             }

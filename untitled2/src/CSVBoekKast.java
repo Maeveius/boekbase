@@ -1,8 +1,8 @@
 import BoekOpBouw.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
     private final String bestandsnaam;
@@ -19,7 +19,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 writer.write(line + System.lineSeparator());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error updating CSV file", e);
         }
     }
 
@@ -32,25 +32,23 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
             meldObservers();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error adding book to CSV file", e);
         }
     }
 
     @Override
     public void verwijderBoek(String naam) {
-        try {
-            File inputFile = new File(bestandsnaam);
-            File tempFile = new File("untitled2\\temp.csv");
+        File inputFile = new File(bestandsnaam);
+        File tempFile = new File("temp.csv");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
              BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
-                String currentLine;
-                while ((currentLine = reader.readLine()) != null) {
-                    String[] gegevens = currentLine.split(";");
-                    if (!gegevens[1].equalsIgnoreCase(naam)) {
-                        writer.write(currentLine + System.lineSeparator());
-                    }
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                String[] gegevens = currentLine.split(";");
+                if (!gegevens[1].equalsIgnoreCase(naam)) {
+                    writer.write(currentLine + System.lineSeparator());
                 }
             }
 
@@ -58,10 +56,11 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 System.out.println("Kon het bestand niet bijwerken.");
             } else {
                 System.out.println("Boek succesvol verwijderd.");
+                meldObservers();
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error removing book from CSV file", e);
         }
     }
 
@@ -92,12 +91,12 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                             break;
                         case "schrijver":
                             String[] auteurParts = gegevens[4].split(",");
-                            if (auteurParts[4].equalsIgnoreCase(oudeWaarde)) {
-                                auteurParts[4] = nieuweWaarde;
+                            if (auteurParts[0].equalsIgnoreCase(oudeWaarde)) {
+                                auteurParts[0] = nieuweWaarde;
                                 gegevens[4] = String.join(",", auteurParts);
                             }
                             break;
-                        case "Speciaal":
+                        case "speciaal":
                             if (gegevens[5].equalsIgnoreCase(oudeWaarde)) {
                                 gegevens[5] = nieuweWaarde;
                             }
@@ -121,7 +120,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             meldObservers();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error updating book in CSV file", e);
         }
     }
 
@@ -139,7 +138,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error reading books from CSV file", e);
         }
 
         return gevondenBoeken;
@@ -202,30 +201,16 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             while ((line = reader.readLine()) != null) {
                 String[] gegevens = line.split(";");
                 if (gegevens.length >= 7) {
-                    String currentWaarde = "";
-                    switch (criterium.toLowerCase()) {
-                        case "gelezen":
-                            currentWaarde = gegevens[0];
-                            break;
-                        case "naam":
-                            currentWaarde = gegevens[1];
-                            break;
-                        case "genre":
-                            currentWaarde = gegevens[2];
-                            break;
-                        case "jaar":
-                            currentWaarde = gegevens[3];
-                            break;
-                        case "schrijver":
-                            currentWaarde = gegevens[4];
-                            break;
-                        case "speciaal":
-                            currentWaarde = gegevens[5];
-                            break;
-                        case "opmerking":
-                            currentWaarde = gegevens[6];
-                            break;
-                    }
+                    String currentWaarde = switch (criterium.toLowerCase()) {
+                        case "gelezen" -> gegevens[0];
+                        case "naam" -> gegevens[1];
+                        case "genre" -> gegevens[2];
+                        case "jaar" -> gegevens[3];
+                        case "schrijver" -> gegevens[4];
+                        case "speciaal" -> gegevens[5];
+                        case "opmerking" -> gegevens[6];
+                        default -> "";
+                    };
                     if (currentWaarde.equalsIgnoreCase(waarde)) {
                         Boek boek = BoekOpBouw.getBoek(gegevens);
                         gevondenBoeken.add(boek);
@@ -233,7 +218,7 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error searching books in CSV file", e);
         }
 
         return gevondenBoeken;

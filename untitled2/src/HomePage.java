@@ -120,7 +120,24 @@ public class HomePage implements BoekKastObserver, ObserverOnderwerp {
                     break;
                 case 4:
                     System.out.println("Voer de nieuwe schrijver in:");
-                    controller.updateBoek("Schrijver", teWijzigenBoek.getAuteur(), scanner.nextLine());
+                    String naam = scanner.nextLine();
+                    System.out.println("Weet je nog meer over de schrijver (Y/N)");
+                    String antwoord = scanner.nextLine();
+
+                    String alles;
+                    if (antwoord.equalsIgnoreCase("Y")) {
+                        System.out.print("Geboortejaar van de schrijver?: ");
+                        int geboortejaar = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.print("Wat is het beste boek van de schrijver?: ");
+                        String besteBoek = scanner.nextLine();
+                        System.out.print("Algemene informatie over de schrijver?: ");
+                        String algemeneInformatie = scanner.nextLine();
+                        alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
+                    } else {
+                        alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
+                    }
+                    controller.updateBoek("Schrijver", teWijzigenBoek.getAuteur(), alles);
                     System.out.println("Schrijver succesvol gewijzigd.");
                     break;
                 case 5:
