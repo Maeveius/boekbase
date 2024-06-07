@@ -21,6 +21,13 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     }
 
     public void voegBoekToe() {
+        Boek nieuwBoek = verzamelBoekGegevens();
+        boekErBij.voegBoekToe(nieuwBoek);
+        meldObservers();
+        System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
+    }
+
+    private Boek verzamelBoekGegevens() {
         boolean gelezen = vraagOfBoekGelezenIs();
         String titel = vraagOmBoekTitel();
         String[] genres = vraagOmGenres();
@@ -32,6 +39,7 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         boekErBij.voegBoekToe(nieuwBoek);
         meldObservers();
         System.out.println("Boek succesvol toegevoegd aan de boekenkast.");
+        return nieuwBoek;
     }
 
     private boolean vraagOfBoekGelezenIs() {

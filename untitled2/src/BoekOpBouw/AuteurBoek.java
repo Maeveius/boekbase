@@ -1,44 +1,74 @@
 package BoekOpBouw;
 
 public class AuteurBoek {
-    private final String auteur;
-    private final int geboortejaar;
-    private final String besteBoek;
-    private final String algemeneInformatie;
+    private String auteur;
+    private int geboortejaar;
+    private String besteBoek;
+    private String algemeneInformatie;
 
-    public AuteurBoek(String alles) {
-        String[] gegevens = alles.split(",");
-        if (gegevens.length < 4) {
-            this.auteur = gegevens.length > 0 ? gegevens[0] : "Onbekend";
-            this.geboortejaar = gegevens.length > 1 ? Integer.parseInt(gegevens[1]) : 0;
-            this.besteBoek = gegevens.length > 2 ? gegevens[2] : "Onbekend";
-            this.algemeneInformatie = gegevens.length > 3 ? gegevens[3] : "Geen informatie";
-        } else {
-            this.auteur = gegevens[0];
-            this.geboortejaar = Integer.parseInt(gegevens[1]);
-            this.besteBoek = gegevens[2];
-            this.algemeneInformatie = gegevens[3];
-        }
+    public AuteurBoek(String auteur) {
+        this.auteur = auteur;
+        this.geboortejaar = geboortejaar;
+        this.besteBoek = besteBoek;
+        this.algemeneInformatie = algemeneInformatie;
     }
 
     public String getAuteur() {
         return auteur;
     }
 
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
     public int getGeboortejaar() {
         return geboortejaar;
+    }
+
+    public void setGeboortejaar(int geboortejaar) {
+        this.geboortejaar = geboortejaar;
     }
 
     public String getBesteBoek() {
         return besteBoek;
     }
 
+    public void setBesteBoek(String besteBoek) {
+        this.besteBoek = besteBoek;
+    }
+
     public String getAlgemeneInformatie() {
         return algemeneInformatie;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s,%d,%s,%s", auteur, geboortejaar, besteBoek, algemeneInformatie);
+    public void setAlgemeneInformatie(String algemeneInformatie) {
+        this.algemeneInformatie = algemeneInformatie;
+    }
+
+
+    public class OpmerkingBoek {
+        private String opmerking;
+        private String extraInformatie;
+
+        public OpmerkingBoek(String opmerking, String extraInformatie) {
+            this.opmerking = opmerking;
+            this.extraInformatie = extraInformatie;
+        }
+
+        public String getOpmerking() {
+            return opmerking;
+        }
+
+        public void setOpmerking(String opmerking) {
+            this.opmerking = opmerking;
+        }
+
+        public String getExtraInformatie() {
+            return extraInformatie;
+        }
+
+        public void setExtraInformatie(String extraInformatie) {
+            this.extraInformatie = extraInformatie;
+        }
     }
 }

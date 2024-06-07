@@ -1,5 +1,4 @@
 import BoekOpBouw.*;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +24,20 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
 
     @Override
     public void voegBoekToe(Boek boek) {
+        schrijfRegelNaarBestand(formateerBoek(boek));
+        meldObservers();
+    }
+
+    private String formateerBoek(Boek boek) {
+        return String.format("%b;%s;%s;%d;%s;%s;%s",
+                boek.getGelezen(), boek.getTitel(), String.join(",", boek.getGenres()),
+                boek.getJaar(), boek.getAuteur(), boek.getSpeciaal(), boek.getOpmerking());
+    }
+
+    private void schrijfRegelNaarBestand(String regel) {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(bestandsnaam, true)))) {
-            writer.println(String.format("%b;%s;%s;%d;%s;%s;%s",
-                    boek.getGelezen(), boek.getTitel(), String.join(",", boek.getGenres()),
-                    boek.getJaar(), boek.getAuteur(), boek.getSpeciaal(), boek.getOpmerking()));
+            writer.println(regel);
             System.out.println("Boek succesvol toegevoegd aan het CSV-bestand.");
-            meldObservers();
         } catch (IOException e) {
             throw new RuntimeException("Error adding book to CSV file", e);
         }
@@ -68,8 +75,6 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             }
 
             writer.flush();
-
-            // Close the resources
             writer.close();
             reader.close();
 
@@ -90,14 +95,11 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                     System.out.println("Kon het tijdelijke bestand niet verwijderen.");
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error removing book from CSV file", e);
         }
     }
-
-
 
     @Override
     public void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde) {
