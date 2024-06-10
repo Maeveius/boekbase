@@ -20,6 +20,19 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
         this.observers = new ArrayList<>();
     }
 
+    public static boolean isValidBook(Boek boek) {
+        if (boek.getTitel() == null || boek.getTitel().isEmpty()) {
+            return false;
+        }
+        if (boek.getJaar() <= 0) {
+            return false;
+        }
+        if (boek.getAuteur() == null) {
+            return false;
+        }
+        return true;
+    }
+
     public void voegBoekToe() {
         Boek nieuwBoek = verzamelBoekGegevens();
         boekErBij.voegBoekToe(nieuwBoek);
@@ -122,7 +135,12 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
 
     @Override
     public void updateBoek(String criterium, String oudeWaarde, String nieuweWaarde) {
-        boekUpdate.updateBoek(criterium, oudeWaarde, nieuweWaarde);
+        if (criterium.equals("Schrijver")) {
+            boekUpdate.updateBoek(criterium, oudeWaarde, nieuweWaarde);
+        }
+            if (oudeWaarde == null || nieuweWaarde == null) {
+                throw new IllegalArgumentException("Auteur mag niet null zijn.");
+            }
         meldObservers();
     }
 
@@ -165,6 +183,7 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     public void voegBoekToe(Boek boek) {
         boekErBij.voegBoekToe(boek);
     }
+
 
     @Override
     public void registreerObserver(BoekKastObserver observer) {
