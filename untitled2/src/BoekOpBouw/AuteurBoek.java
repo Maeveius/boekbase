@@ -6,7 +6,10 @@ public class AuteurBoek {
     private String besteBoek;
     private String algemeneInformatie;
 
-    public AuteurBoek(String auteur) {
+    public AuteurBoek(String auteur, int geboortejaar, String besteBoek, String algemeneInformatie) {
+        if (auteur == null || auteur.trim().isEmpty()) {
+            throw new IllegalArgumentException("Auteur mag niet null of leeg zijn.");
+        }
         this.auteur = auteur;
         this.geboortejaar = geboortejaar;
         this.besteBoek = besteBoek;
@@ -17,15 +20,34 @@ public class AuteurBoek {
         return auteur;
     }
 
+    public void setAuteur(String auteur) {
+        if (auteur == null || auteur.trim().isEmpty()) {
+            throw new IllegalArgumentException("Auteur mag niet null of leeg zijn.");
+        }
+        this.auteur = auteur;
+    }
+
     public int getGeboortejaar() {
         return geboortejaar;
+    }
+
+    public void setGeboortejaar(int geboortejaar) {
+        this.geboortejaar = geboortejaar;
     }
 
     public String getBesteBoek() {
         return besteBoek;
     }
 
+    public void setBesteBoek(String besteBoek) {
+        this.besteBoek = besteBoek;
+    }
+
     public String getAlgemeneInformatie() {
         return algemeneInformatie;
+    }
+
+    public void setAlgemeneInformatie(String algemeneInformatie) {
+        this.algemeneInformatie = algemeneInformatie;
     }
 }

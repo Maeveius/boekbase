@@ -21,13 +21,13 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     }
 
     public static boolean isValidBook(Boek boek) {
-        if (boek.getTitel() == null || boek.getTitel().isEmpty()) {
+        if (boek.getTitel() == null || boek.getTitel().isEmpty() || boek.getTitel().length() > 255) {
             return false;
         }
-        if (boek.getJaar() <= 0) {
+        if (boek.getJaar() <= 0 || boek.getJaar() > 2025) {
             return false;
         }
-        if (boek.getAuteur() == null) {
+        if (boek.getAuteurBoek() == null || boek.getAuteurBoek().getAuteur() == null || boek.getAuteurBoek().getAuteur().isEmpty()) {
             return false;
         }
         return true;
@@ -84,10 +84,12 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     private AuteurBoek vraagOmAuteur() {
         System.out.print("En wie is de schrijver?: ");
         String naam = scanner.nextLine();
+        if (naam == null || naam.trim().isEmpty()) {
+            throw new IllegalArgumentException("Auteur mag niet null of leeg zijn.");
+        }
         System.out.println("Weet je nog meer over de schrijver (Y/N)");
         String antwoord = scanner.nextLine();
 
-        String alles;
         if (antwoord.equalsIgnoreCase("Y")) {
             System.out.print("Geboortejaar van de schrijver?: ");
             int geboortejaar = scanner.nextInt();
@@ -96,13 +98,11 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
             String besteBoek = scanner.nextLine();
             System.out.print("Algemene informatie over de schrijver?: ");
             String algemeneInformatie = scanner.nextLine();
-            alles = String.format("%s,%d,%s,%s", naam, geboortejaar, besteBoek, algemeneInformatie);
+            return new AuteurBoek(naam, geboortejaar, besteBoek, algemeneInformatie);
         } else {
-            alles = String.format("%s,%d,%s,%s", naam, 0, "Onbekend", "Geen informatie");
+            return new AuteurBoek(naam, 0, "Onbekend", "Geen informatie");
         }
-        return new AuteurBoek(alles);
     }
-
     private OpmerkingBoek vraagOmOpmerking() {
         System.out.print("Wat dacht je eigenlijk over het boek?: ");
         String opmerkingText = scanner.nextLine();

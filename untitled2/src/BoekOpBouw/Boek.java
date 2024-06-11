@@ -10,6 +10,7 @@ public class Boek implements ComponenteVanHetBoek {
     private final OpmerkingBoek opmerking;
 
     public Boek(boolean gelezen, String titel, String[] genres, int jaar, AuteurBoek auteur, String speciaal, OpmerkingBoek opmerking) {
+
         this.gelezen = gelezen;
         this.titel = titel;
         this.genres = genres;

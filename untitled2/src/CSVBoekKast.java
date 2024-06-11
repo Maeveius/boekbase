@@ -269,11 +269,17 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
             String titel = gegevens[1];
             String[] genres = gegevens[2].split(",");
             int jaar = Integer.parseInt(gegevens[3]);
-            String schrijver = gegevens[4];
+
+            String[] auteurDetails = gegevens[4].split(",");
+            String schrijver = auteurDetails[0].trim();
+            int geboortejaar = auteurDetails.length > 1 ? Integer.parseInt(auteurDetails[1].trim()) : 0;
+            String besteBoek = auteurDetails.length > 2 ? auteurDetails[2].trim() : "";
+            String algemeneInformatie = auteurDetails.length > 3 ? auteurDetails[3].trim() : "";
+
+            AuteurBoek auteurBoek = new AuteurBoek(schrijver, geboortejaar, besteBoek, algemeneInformatie);
             String speciaal = gegevens[5];
             String opmerking = gegevens[6];
 
-            AuteurBoek auteurBoek = new AuteurBoek(schrijver);
             OpmerkingBoek opmerkingBoek = new OpmerkingBoek(opmerking, "");
 
             return switch (speciaal.toLowerCase()) {
@@ -282,5 +288,6 @@ public class CSVBoekKast implements ZoekBoek, BoekErAf, BoekUpdate, BoekErBij {
                 default -> new Boek(gelezen, titel, genres, jaar, auteurBoek, speciaal, opmerkingBoek);
             };
         }
+
     }
 }

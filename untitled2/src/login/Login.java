@@ -22,7 +22,7 @@ public class Login {
         CsvAccountManager accountManager = new CsvAccountManager("untitled2\\src\\login\\accounts.csv");
 
         if (accountManager.isValidUser(gebruikersNaam, wachtWoord)) {
-            System.out.println(STR."Welkom, \{gebruikersNaam.getGebruikersNaam()}!");
+            System.out.println("Welkom, " + gebruikersNaam.getGebruikersNaam());
             return true;
         } else {
             System.out.println("Sorry, uw wachtwoord/gebruikersnaam is verkeerd.");
