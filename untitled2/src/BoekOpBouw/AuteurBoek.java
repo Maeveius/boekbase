@@ -7,9 +7,6 @@ public class AuteurBoek {
     private String algemeneInformatie;
 
     public AuteurBoek(String auteur, int geboortejaar, String besteBoek, String algemeneInformatie) {
-        if (auteur == null || auteur.trim().isEmpty()) {
-            throw new IllegalArgumentException("Auteur mag niet null of leeg zijn.");
-        }
         this.auteur = auteur;
         this.geboortejaar = geboortejaar;
         this.besteBoek = besteBoek;

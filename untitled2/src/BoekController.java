@@ -23,11 +23,9 @@ public class BoekController implements BoekErAf, BoekErBij, BoekUpdate, ZoekBoek
     public static boolean isValidBook(Boek boek) {
         if (boek.getTitel() == null || boek.getTitel().isEmpty() || boek.getTitel().length() > 255) {
             return false;
-        }
-        if (boek.getJaar() <= 0 || boek.getJaar() > 2025) {
+        } else if (boek.getJaar() <= 0 || boek.getJaar() > 2025) {
             return false;
-        }
-        if (boek.getAuteurBoek() == null || boek.getAuteurBoek().getAuteur() == null || boek.getAuteurBoek().getAuteur().isEmpty()) {
+        } else if (boek.getAuteurBoek() == null || boek.getAuteurBoek().getAuteur() == null || boek.getAuteurBoek().getAuteur().isEmpty()) {
             return false;
         }
         return true;
